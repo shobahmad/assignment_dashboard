@@ -3,18 +3,19 @@ class AccountModel {
   String firstName = '';
   String lastName = '';
   String nickName = '';
-  String placeOfBirth = '';
+  String photo = '';
   DateTime dateOfBirth = DateTime.now();
-  String gender = '';
-  int generationId = 0;
   String phoneNumber = '';
   String email = '';
-  String password = '';
 
-  AccountModel(this.email, this.gender, this.generationId, this.firstName, this.lastName);
+  AccountModel(this.email, this.firstName, this.lastName, this.photo);
 
   AccountModel.storage(Map<String, dynamic> m) {
     fromJSONEncodable(m);
+  }
+
+  String getName() {
+    return firstName + " " + lastName;
   }
 
   toJSONEncodable() {
@@ -23,13 +24,10 @@ class AccountModel {
     m['first_name'] = firstName;
     m['last_name'] = lastName;
     m['nick_name'] = nickName;
-    m['place_of_birth'] = placeOfBirth;
+    m['photo'] = photo;
     m['date_of_birth'] = dateOfBirth.millisecond;
-    m['gender'] = gender;
-    m['generationId'] = generationId;
     m['phoneNumber'] = phoneNumber;
     m['email'] = email;
-    m['password'] = password;
     return m;
   }
 
@@ -37,12 +35,9 @@ class AccountModel {
     firstName = m['first_name'];
     lastName = m['last_name'];
     nickName = m['nick_name'];
-    placeOfBirth = m['place_of_birth'];
+    photo = m['photo'];
     dateOfBirth = new DateTime.fromMillisecondsSinceEpoch(m['date_of_birth']);
-    gender = m['gender'];
-    generationId = m['generationId'];
     phoneNumber = m['phoneNumber'];
     email = m['email'];
-    password = m['password'];
   }
 }

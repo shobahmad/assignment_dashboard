@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/model/task_summary_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
