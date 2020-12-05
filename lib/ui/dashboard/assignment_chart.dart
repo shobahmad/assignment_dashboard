@@ -1,3 +1,4 @@
+import 'package:assignment_dashboard/ui/tasklist/tasklist.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -23,9 +24,14 @@ class AssignmentChartState extends State<AssignmentChart> {
       child: PieChart(
         PieChartData(
             pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+              if (pieTouchResponse.touchInput is FlPanEnd) {
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskList()));
+                });
+              }
+
               setState(() {
-                if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                    pieTouchResponse.touchInput is FlPanEnd) {
+                if (pieTouchResponse.touchInput is FlPanEnd) {
                   touchedIndex = -1;
                 } else {
                   touchedIndex = pieTouchResponse.touchedSectionIndex;
