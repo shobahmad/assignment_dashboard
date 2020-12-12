@@ -16,7 +16,7 @@ class TaskApiProvider {
         var dateStart = dateNow.add(Duration(days: random.nextInt(30)));
         var dateEnd   = dateStart.add(Duration(days: random.nextInt(30)));
 
-        var division = DivisionModel(1, 'Tech');
+        var division = DivisionModel("1", 'Tech');
         var pic = PicModel(1, 'Frodo Bagins');
 
         var status = Status.values[random.nextInt(3)];

@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/const/storage.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
+import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/login_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/model/task_model.dart';
@@ -31,6 +32,7 @@ class Repository {
 //  }
 
   Future<RecentTaskModel> getRecentTask(DateTime dateTime) => dashboardApiProvider.getRecentTask(dateTime);
+  Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
   Future<TaskSummaryModel> getTaskSummary(DateTime dateTime) => dashboardApiProvider.getTaskSummary(dateTime);
   Future<List<TaskModel>> getTaskList() => taskApiProvider.getTaskList();
   Future<AccountModel> getProfile() => profileApiProvider.getAccount();

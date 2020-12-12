@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/bloc/dashboard/dashboard_bloc.dart';
 import 'package:assignment_dashboard/bloc/dashboard/dashboard_state.dart';
+import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/ui/dashboard/profile_drawer.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 import 'assignment_chart.dart';
+import 'division_picker.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -22,7 +24,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     dashboardBloc = DashboardBloc();
-    dashboardBloc.getDashboarddState(DateTime.now());
+    dashboardBloc.getDashboarddState(DateTime.now(), null);
   }
 
   @override
@@ -52,7 +54,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (snapshot.data.state == DashboardState.empty) {
             return Column(
               children: [
-                monthPicker(snapshot.data.selectedDate),
+                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
                 SizedBox(
                   height: 2,
                 ),
@@ -73,7 +75,11 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (snapshot.data.state == DashboardState.success) {
             return Column(
               children: [
-                monthPicker(snapshot.data.selectedDate),
+                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
+                SizedBox(
+                  height: 2,
+                ),
+                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
                 SizedBox(
                   height: 2,
                 ),
@@ -96,7 +102,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget monthPicker(DateTime selectedDate) {
+  Widget monthPicker(DateTime selectedDate, DivisionModel divisionModel) {
     return Card(
       color: Colors.white,
       child: ListTile(
@@ -114,7 +120,7 @@ class DashboardScreenState extends State<DashboardScreen> {
             if (date == null) {
               return;
             }
-            dashboardBloc.getDashboarddState(date);
+            dashboardBloc.getDashboarddState(date, divisionModel);
           });
         },
       ),
@@ -142,5 +148,16 @@ class DashboardScreenState extends State<DashboardScreen> {
                   : Colors.green),
           onTap: () {},
         ));
+  }
+
+  Widget division(List<DivisionModel> listDivisions, DateTime selectedDate) {
+    return Card(
+        color: Colors.white,
+        child: ListTile(
+            title: DivisionPicker(listDivisions: listDivisions, onChange: (selectedDivision) {
+              dashboardBloc.getDashboarddState(selectedDate, selectedDivision);
+            },),
+            leading: Icon(Icons.group),
+            trailing: Icon(Icons.chevron_right)));
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/model/task_summary_model.dart';
 
@@ -23,4 +24,20 @@ class DashboardApiProvider {
           random.nextInt(100).toDouble(), random.nextInt(100).toDouble());
     });
   }
+
+
+  Future<List<DivisionModel>> getDivisionList() async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      List<DivisionModel> result = [];
+      int i = 0;
+      while(i < 5) {
+         i++;
+         result.add(DivisionModel("00"+ i.toString(), "Division" + i.toString()));
+      }
+      return result;
+    });
+  }
+
+
+
 }

@@ -1,5 +1,5 @@
 class DivisionModel {
-  int id;
+  String id;
   String name;
 
   DivisionModel(this.id, this.name);

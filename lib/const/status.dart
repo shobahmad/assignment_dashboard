@@ -1,6 +1,6 @@
 enum Status {
-  done,
-  due,
+  finish,
+  behind_schedule,
   on_progress
 }
 
@@ -8,12 +8,12 @@ extension StatusExtension on Status {
 
   int get value {
     switch (this) {
-      case Status.done:
+      case Status.finish:
         return 1;
-      case Status.due:
+      case Status.behind_schedule:
         return 2;
       case Status.on_progress:
-        return 3;
+        return 0;
       default:
         return null;
     }
