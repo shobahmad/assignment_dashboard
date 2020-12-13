@@ -22,7 +22,7 @@ class DashboardBloc {
     }
 
 
-    List<DivisionModel> listDivisions = await _repository.getDivisionList();
+    List<DivisionModel> listDivisions = _repository.getAccount().divisions;
     List<DivisionModel> listSortedDivisions = listDivisions.toList();
     var found = false;
     for (var i = 0; i < listDivisions.length; i++) {
