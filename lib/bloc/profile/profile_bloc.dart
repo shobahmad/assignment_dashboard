@@ -13,7 +13,7 @@ class ProfileBloc {
   getProfileState() async {
     _profileStateFetcher.sink.add(ProfileStream(state: ProfileState.loading));
 
-    AccountModel accountModel = await _repository.getProfile();
+    AccountModel accountModel = _repository.getAccount();
 
     if (accountModel == null) {
       _profileStateFetcher.sink.add(ProfileStream(state: ProfileState.empty));

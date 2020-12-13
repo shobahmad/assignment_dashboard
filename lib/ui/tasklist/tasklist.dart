@@ -89,7 +89,7 @@ class TaskListWidgetState extends State<TaskList> {
                              Expanded(
                                child: TextField(
                                  controller:
-                                 TextEditingController(text: snapshot.data.taskList[index].division.name),
+                                 TextEditingController(text: snapshot.data.taskList[index].division.divisionDesc),
                                  readOnly: true,
                                  style: TextStyle(fontSize: 12),
                                  decoration: InputDecoration(

@@ -30,7 +30,7 @@ class DashboardBloc {
         break;
       }
 
-      if (divisionModel.id == listDivisions[i].id) {
+      if (divisionModel.divisionId == listDivisions[i].divisionId) {
         listSortedDivisions.removeAt(i);
         found = true;
         break;

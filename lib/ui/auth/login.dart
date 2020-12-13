@@ -110,18 +110,18 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController textEmailController;
+  TextEditingController textUsernameController;
   TextEditingController textPasswordController;
 
   @override
   void initState() {
     super.initState();
-    textEmailController = TextEditingController();
+    textUsernameController = TextEditingController();
     textPasswordController = TextEditingController();
   }
   @override
   void dispose() {
-    textEmailController.dispose();
+    textUsernameController.dispose();
     textPasswordController.dispose();
     super.dispose();
   }
@@ -140,16 +140,14 @@ class LoginFormState extends State<LoginForm> {
             children: <Widget>[
               sizedBoxSpace,
               TextFormField(
-                controller: textEmailController,
+                controller: textUsernameController,
                 enabled: !widget.loading,
                 cursorColor: cursorColor,
                 decoration: InputDecoration(
                     filled: false,
-                    icon: const Icon(Icons.email),
-                    hintText: 'Email or username',
-                    labelText: 'Email'),
-                keyboardType:
-                TextInputType.emailAddress,
+                    icon: const Icon(Icons.person),
+                    hintText: 'Username',
+                    labelText: 'Username'),
               ),
               sizedBoxSpace,
               PasswordField(
@@ -181,7 +179,7 @@ class LoginFormState extends State<LoginForm> {
                     ? null : () {
                   if (_formKey.currentState.validate()) {
                     FocusScope.of(context).unfocus();
-                    bloc.postLogin(textEmailController.text, textPasswordController.text);
+                    bloc.postLogin(textUsernameController.text, textPasswordController.text);
                   }
                 },
                 child: Container(

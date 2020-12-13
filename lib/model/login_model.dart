@@ -1,26 +1,28 @@
 
-class LoginModel {
-  String token;
-  String message;
+import 'package:assignment_dashboard/model/account_model.dart';
 
-  LoginModel(this.message);
+class LoginModel {
+  int status;
+  String message;
+  String errorMessage;
+  AccountModel data;
+
+  LoginModel(this.errorMessage);
 
   LoginModel.fromJson(Map<String, dynamic> parsedJson) {
-    token = parsedJson['token'];
-    if (parsedJson['detail'] != null) {
-      message = parsedJson['detail'];
-      return;
+    if (parsedJson['status'] != null) {
+      status = parsedJson['status'];
     }
-    if (parsedJson['email'] != null) {
-      message = parsedJson['email'][0];
+    if (parsedJson['message'] != null) {
+      message = parsedJson['message'];
+    }
+
+    if (parsedJson['data'] is String) {
+      errorMessage = parsedJson['data'];
       return;
     }
 
-    if (parsedJson['password'] != null) {
-      message = parsedJson['password'][0];
-      return;
-    }
-
+    data = AccountModel.json(parsedJson['data']);
   }
 
 

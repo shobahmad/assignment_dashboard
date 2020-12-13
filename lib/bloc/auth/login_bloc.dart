@@ -15,20 +15,19 @@ class LoginBloc {
 
   postLogin(var username, var password) async {
     _loginStateFetcher.sink.add(LoginStream(LoginState.loading, ''));
-//    LoginModel loginModel = await _repository.postLogin(username.trim(), password);
-//
-//    if (loginModel == null) {
-//      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));
-//      return;
-//    }
-//
-//    if (loginModel.token == null) {
-//      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, loginModel.message));
-//      return;
-//    }
-//    _repository.saveToken(loginModel.token);
+    LoginModel loginModel = await _repository.postLogin(username.trim(), password);
 
-    _repository.saveToken("dummy.token");
+    if (loginModel == null) {
+      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));
+      return;
+    }
+    if (loginModel.errorMessage != null) {
+      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, loginModel.errorMessage));
+      return;
+    }
+
+    _repository.saveAccount(loginModel.data);
+
     _loginStateFetcher.sink.add(LoginStream(LoginState.success, ''));
   }
 

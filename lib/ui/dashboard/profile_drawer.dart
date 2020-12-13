@@ -56,7 +56,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                           child: Center(
                             child: Column(
                               children: [
-                                CircleAvatar(backgroundImage: NetworkImage(snapshot.data.accountModel.photo), radius: 48,),
+                                Icon(Icons.person, size: 48),
                                 SizedBox(height: 8),
                                 Text(snapshot.data.accountModel.getName())
                               ],

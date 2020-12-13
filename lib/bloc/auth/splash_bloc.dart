@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:assignment_dashboard/bloc/auth/splash_state.dart';
+import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
 
@@ -13,9 +14,9 @@ class SplashBloc {
   getSplashState() async {
     _loginStateFetcher.sink.add(SplashState.loading);
     Future.delayed(const Duration(seconds: 2), () async {
-      String token = _repository.getToken();
+      AccountModel account = _repository.getAccount();
 
-      if (token != null) {
+      if (account != null) {
         _loginStateFetcher.sink.add(SplashState.authorized);
         return;
       }

@@ -36,7 +36,7 @@ class _DivisionPickerState extends State<DivisionPicker> {
       ),
       onChanged: (DivisionModel newValue) {
         setState(() {
-          if (dropdownValue.id == newValue.id) {
+          if (dropdownValue.divisionId == newValue.divisionId) {
             return;
           }
           dropdownValue = newValue;
@@ -45,7 +45,7 @@ class _DivisionPickerState extends State<DivisionPicker> {
       },
       items: widget.listDivisions
           .map((value) => DropdownMenuItem<DivisionModel>(
-              value: value, child: Text(value.name)))
+              value: value, child: Text(value.divisionDesc)))
           .toList(),
     );
   }
