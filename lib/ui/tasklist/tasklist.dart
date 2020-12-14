@@ -159,6 +159,9 @@ class TaskListWidgetState extends State<TaskList> {
                         Text(snapshot.data.taskList[index].taskName,
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text(snapshot.data.taskList[index].taskDescription,
+                            style: TextStyle(
+                                fontSize: 14, fontStyle: FontStyle.italic)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
