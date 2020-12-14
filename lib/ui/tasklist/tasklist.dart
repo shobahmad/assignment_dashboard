@@ -109,8 +109,9 @@ class TaskListWidgetState extends State<TaskList> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   leading: ProgressChart(
-                      percentage:
-                          snapshot.data.taskList[index].progress.toDouble()),
+                      percentage: snapshot.data.taskList[index].progress == null
+                          ? 0.0
+                          : snapshot.data.taskList[index].progress.toDouble()),
                   title: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,6 +172,7 @@ class TaskListWidgetState extends State<TaskList> {
                                     text:
                                         snapshot.data.taskList[index].division),
                                 readOnly: true,
+                                maxLines: 2,
                                 style: TextStyle(fontSize: 12),
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -182,6 +184,7 @@ class TaskListWidgetState extends State<TaskList> {
                                 controller: TextEditingController(
                                     text: snapshot.data.taskList[index].pic),
                                 readOnly: true,
+                                maxLines: 2,
                                 style: TextStyle(fontSize: 12),
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.person_pin),

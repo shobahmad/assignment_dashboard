@@ -23,7 +23,7 @@ extension StatusExtension on Status {
       case Status.on_progress:
         return 'On Progress';
       case Status.finish:
-        return 'Done';
+        return 'Finish';
       case Status.behind_schedule:
         return 'Behind Schedule';
       default:

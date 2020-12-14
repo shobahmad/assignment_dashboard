@@ -87,7 +87,7 @@ class AssignmentChartState extends State<AssignmentChart> {
           return PieChartSectionData(
             color: Colors.green,
             value: widget.qtyDone,
-            title: 'Done',
+            title: 'Finish',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
