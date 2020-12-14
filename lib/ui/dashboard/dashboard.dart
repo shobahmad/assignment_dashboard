@@ -20,7 +20,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
-  var dashboardBloc;
+  DashboardBloc dashboardBloc;
   @override
   void initState() {
     super.initState();
@@ -59,7 +59,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(
                   height: 2,
                 ),
-                recentTask(snapshot.data.recentTaskModel),
+                recentTask([]),
                 SizedBox(
                   height: 24,
                 ),
@@ -85,7 +85,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(
                   height: 2,
                 ),
-                recentTask(snapshot.data.recentTaskModel),
+                recentTask([]),
                 SizedBox(
                   height: 24,
                 ),
@@ -100,7 +100,8 @@ class DashboardScreenState extends State<DashboardScreen> {
             );
           }
           if (snapshot.data.state == DashboardState.success) {
-            return Column(
+            return ListView(
+              shrinkWrap: true,
               children: [
                 monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
                 SizedBox(
@@ -110,7 +111,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(
                   height: 2,
                 ),
-                recentTask(snapshot.data.recentTaskModel),
+                recentTask(snapshot.data.recentTaskModel.listRecentTask),
                 SizedBox(
                   height: 2,
                 ),
@@ -159,27 +160,67 @@ class DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget recentTask(RecentTaskModel recentTaskModel) {
-    return Card(
-        color: Colors.white,
-        child: ListTile(
-          title: Text(
-              recentTaskModel == null
-                  ? 'No new task updates'
-                  : recentTaskModel.datetime +
-                  ' - ' +
-                  recentTaskModel.description,
-              style: TextStyle(
-                  color: recentTaskModel == null
-                      ? Colors.blueGrey
-                      : Colors.green,
-                  fontSize: 16)),
-          leading: Icon(Icons.assignment,
-              color: recentTaskModel == null
-                  ? Colors.blueGrey
-                  : Colors.green),
-          onTap: () {},
-        ));
+  Widget recentTask(List<RecentTaskModel> recentTaskModel) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 8,),
+        Text(' Recent updates', style: TextStyle(color: Colors.green, fontSize: 16),),
+        SizedBox(height: 2,),
+        Card(
+            color: Colors.white,
+            child: recentTaskList(recentTaskModel))
+      ],
+    );
+  }
+
+  Widget recentTaskList(List<RecentTaskModel> recentTaskModel) {
+    if (recentTaskModel.isEmpty) {
+      return ListTile(
+        title: Text('No new recent updates',
+            style: TextStyle(color: Colors.blueGrey, fontSize: 16)),
+        leading: Icon(Icons.assignment, color: Colors.blueGrey),
+      );
+    }
+
+    return Column(
+      children: [
+        ListView.separated(
+          shrinkWrap: true,
+          separatorBuilder: (context, index) {
+            return Divider(
+              color: Colors.grey,
+            );
+          },
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                  controller: TextEditingController(
+                      text: recentTaskModel[index].description),
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText:
+                      DateUtil.formatToyMMMd(recentTaskModel[index].datetime),
+                      helperText: 'by ${recentTaskModel[index].usedId}',
+                      prefixIcon: Icon(Icons.assignment, color: Colors.green,)
+                  )),
+            );
+          },
+          itemCount: recentTaskModel.length,
+        ),
+        SizedBox(height: 0.3, child: Container(decoration: BoxDecoration(color: Colors.grey),),),
+        ListTile(
+          title: Text('View all recent updates',
+              style: TextStyle(color: Colors.green, fontSize: 12)),
+          trailing: Icon(Icons.chevron_right),
+          onTap: () {
+
+          },
+        )
+      ],
+    );
   }
 
   Widget division(List<DivisionModel> listDivisions, DateTime selectedDate) {

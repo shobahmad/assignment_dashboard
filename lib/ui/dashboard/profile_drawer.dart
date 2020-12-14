@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/bloc/profile/profile_bloc.dart';
 import 'package:assignment_dashboard/bloc/profile/profile_state.dart';
+import 'package:assignment_dashboard/ui/auth/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -10,7 +11,7 @@ class ProfileDrawer extends StatefulWidget {
 
 class _ProfileDrawerState extends State<ProfileDrawer> {
 
-  var profileBloc;
+  ProfileBloc profileBloc;
 
   @override
   void initState() {
@@ -40,6 +41,13 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                   size: 18.0,
                 )),
           );
+        }
+
+        if (snapshot.data.state == ProfileState.logout) {
+          Future.delayed(const Duration(seconds: 0), () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
+          });
+          return Container();
         }
 
         return Drawer(
@@ -79,7 +87,9 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         ListTile(
                           leading: Icon(Icons.exit_to_app),
                           title: Text("Logout"),
-                          onTap: () {},
+                          onTap: () {
+                            profileBloc.logout();
+                          },
                         )
                       ],
                     ),

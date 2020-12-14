@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:assignment_dashboard/const/status.dart';
+import 'package:assignment_dashboard/model/recent_task_response_model.dart';
 import 'package:assignment_dashboard/model/task_summary_response_model.dart';
 import 'package:http/http.dart' show Client, Response;
 
@@ -15,13 +16,33 @@ class DashboardApiProvider {
   Client client = Client();
   final _baseUrl = "http://202.83.121.90:3000";
 
-  Future<RecentTaskModel> getRecentTask(DateTime dateTime) async {
-    return Future.delayed(const Duration(seconds: 1), () async {
-      if (dateTime.month == 1) {
-        return null;
+  Future<RecentTaskResponseModel> getRecentTask(DateTime dateTime, String userId, bool allTask) async {
+    Map data = {
+      'request': {
+        'type': allTask ? '1' : '0',
+        'user_id': userId
       }
-      return RecentTaskModel('15:24', 'admin', 'New task updated by Teguh');
+    };
+    var body = json.encode(data);
+
+    final response = await client
+        .post("$_baseUrl/dashboardtm/recentupdates",
+        headers: {"Content-Type": "application/json"}, body: body)
+        .catchError((error, stackTrace) {
+      return RecentTaskResponseModel.error(
+          'Error occurred while Communication with Server. ${error.toString()}\n${stackTrace.toString()}');
     });
+    App.alice.onHttpResponse(response);
+
+    if (response == null) {
+      return RecentTaskResponseModel.error('Unexpected for empty result, please try again later');
+    }
+
+    if (response.statusCode == 200) {
+      return RecentTaskResponseModel.json(json.decode(response.body));
+    }
+
+    return RecentTaskResponseModel.error(json.decode(response.body)['data']);
   }
 
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) async {
@@ -78,7 +99,6 @@ class DashboardApiProvider {
 
     return TaskDashboardModel(qtyBehindSchedule, qtyOnProgress, qtyDone);
   }
-
 
   Future<List<DivisionModel>> getDivisionList() async {
     return Future.delayed(const Duration(seconds: 1), () async {

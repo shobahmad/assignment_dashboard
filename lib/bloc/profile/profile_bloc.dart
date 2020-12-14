@@ -25,6 +25,13 @@ class ProfileBloc {
         accountModel: accountModel));
   }
 
+  logout() async {
+    _repository.clearAccount();
+    _profileStateFetcher.sink.add(ProfileStream(
+        state: ProfileState.logout,
+        accountModel: null));
+  }
+
   dispose() {
     _profileStateFetcher.close();
   }

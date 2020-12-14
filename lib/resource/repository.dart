@@ -4,6 +4,7 @@ import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/login_response_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
+import 'package:assignment_dashboard/model/recent_task_response_model.dart';
 import 'package:assignment_dashboard/model/task_dashboard_model.dart';
 import 'package:assignment_dashboard/model/task_list_response_model.dart';
 import 'package:assignment_dashboard/model/task_model.dart';
@@ -26,12 +27,13 @@ class Repository {
   Future<LoginResponseModel> postLogin(String username, String password) => loginApiProvider.postLogin(username, password);
 //
   Future saveAccount(AccountModel accountModel) => _storage.setItem(FieldKey.account.value, accountModel.toJSONEncodable());
+  Future clearAccount() => _storage.setItem(FieldKey.account.value, null);
   AccountModel getAccount() {
     var accountStorage = _storage.getItem(FieldKey.account.value);
     return accountStorage == null ? null : AccountModel.json(accountStorage);
   }
 
-  Future<RecentTaskModel> getRecentTask(DateTime dateTime) => dashboardApiProvider.getRecentTask(dateTime);
+  Future<RecentTaskResponseModel> getRecentTask(DateTime dateTime, String userId, bool allTask) => dashboardApiProvider.getRecentTask(dateTime, userId, allTask);
   Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);

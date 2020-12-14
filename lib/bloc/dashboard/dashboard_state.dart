@@ -1,13 +1,13 @@
 
 import 'package:assignment_dashboard/model/division_model.dart';
-import 'package:assignment_dashboard/model/recent_task_model.dart';
+import 'package:assignment_dashboard/model/recent_task_response_model.dart';
 import 'package:assignment_dashboard/model/task_dashboard_model.dart';
 import 'package:flutter/widgets.dart';
 
 class DashboardStream {
     DashboardState state;
     DateTime selectedDate;
-    RecentTaskModel recentTaskModel;
+    RecentTaskResponseModel recentTaskModel;
     TaskDashboardModel taskDashboardModel;
     List<DivisionModel> listDivisionModel;
 

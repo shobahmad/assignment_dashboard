@@ -13,5 +13,6 @@ enum ProfileState {
     empty,
     loading,
     success,
+    logout,
     failed
 }

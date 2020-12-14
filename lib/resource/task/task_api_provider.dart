@@ -45,31 +45,4 @@ class TaskApiProvider {
     return TaskListResponseModel.error(json.decode(response.body)['data']);
   }
 
-  Future<List<TaskModel>> getTaskList() async {
-    return Future.delayed(const Duration(seconds: 1), () async {
-      List<TaskModel> taskList = [];
-      var i = 1;
-      var random = new Random();
-      while(taskList.length < random.nextInt(25).toDouble()) {
-        var dateNow   = DateTime.now();
-        var dateStart = dateNow.add(Duration(days: random.nextInt(30)));
-        var dateEnd   = dateStart.add(Duration(days: random.nextInt(30)));
-
-        var status = Status.values[random.nextInt(3)];
-
-        taskList.add(TaskModel(
-            i,
-            'Lorem ipsum dolor sit amet ' + i.toString(),
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit ' + i.toString(),
-            dateStart,
-            dateEnd,
-            dateEnd,
-            'Tech',
-            'Frodo Bagins',
-            random.nextInt(100)));
-        i++;
-      }
-      return taskList;
-    });
-  }
 }
