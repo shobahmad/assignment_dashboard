@@ -1,7 +1,7 @@
 class RecentTaskModel {
-  int taskId;
-  String time;
-  String message;
+  String datetime;
+  String usedId;
+  String description;
 
-  RecentTaskModel(this.taskId, this.time, this.message);
+  RecentTaskModel(this.datetime, this.usedId, this.description);
 }

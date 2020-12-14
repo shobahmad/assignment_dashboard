@@ -80,6 +80,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(
                   height: 2,
                 ),
+                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                SizedBox(
+                  height: 2,
+                ),
                 recentTask(snapshot.data.recentTaskModel),
                 SizedBox(
                   height: 24,
@@ -113,7 +117,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                     qtyBehindSchedule:
                         snapshot.data.taskDashboardModel.qtyBehindSchedule,
                     qtyDone: snapshot.data.taskDashboardModel.qtyDone,
-                    qtyOnProgress: snapshot.data.taskDashboardModel.qtyOnProgress)
+                    qtyOnProgress: snapshot.data.taskDashboardModel.qtyOnProgress,
+                    month: snapshot.data.selectedDate.month.toString(),
+                    divisionId: snapshot.data.listDivisionModel.first.divisionId,
+                )
               ],
             );
           }
@@ -156,9 +163,9 @@ class DashboardScreenState extends State<DashboardScreen> {
           title: Text(
               recentTaskModel == null
                   ? 'No new task updates'
-                  : recentTaskModel.time +
+                  : recentTaskModel.datetime +
                   ' - ' +
-                  recentTaskModel.message,
+                  recentTaskModel.description,
               style: TextStyle(
                   color: recentTaskModel == null
                       ? Colors.blueGrey

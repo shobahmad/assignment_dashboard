@@ -20,7 +20,7 @@ class DashboardBloc {
     TaskDashboardModel taskDashboard = await _repository.getTaskSummary(time, accountModel.userId, divisionModel.divisionId);
 
     if (taskDashboard.isError()) {
-      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.failed, selectedDate: time, taskDashboardModel: taskDashboard));
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.failed, selectedDate: time, taskDashboardModel: taskDashboard, listDivisionModel: accountModel.divisions));
       return;
     }
 

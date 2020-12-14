@@ -8,7 +8,10 @@ class AssignmentChart extends StatefulWidget {
   final double qtyOnProgress;
   final double qtyDone;
 
-  const AssignmentChart({Key key, this.qtyBehindSchedule, this.qtyOnProgress, this.qtyDone}) : super(key: key);
+  final String month;
+  final String divisionId;
+
+  const AssignmentChart({Key key, this.qtyBehindSchedule, this.qtyOnProgress, this.qtyDone, this.month, this.divisionId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AssignmentChartState();
@@ -24,11 +27,19 @@ class AssignmentChartState extends State<AssignmentChart> {
       child: PieChart(
         PieChartData(
             pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-              if (pieTouchResponse.touchInput is FlPanEnd) {
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskList()));
-                });
-              }
+//              if (pieTouchResponse.touchInput is FlLongPressEnd) {
+                String index = pieTouchResponse.touchedSectionIndex.toString();
+                print('$index from  $pieTouchResponse');
+                if (pieTouchResponse.touchedSectionIndex != null) {
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TaskList(
+                                widget.month, widget.divisionId, index)));
+                  });
+                }
+//              }
 
               setState(() {
                 if (pieTouchResponse.touchInput is FlPanEnd) {
@@ -71,7 +82,7 @@ class AssignmentChartState extends State<AssignmentChart> {
             ),
             badgePositionPercentageOffset: .98,
           );
-        case 2:
+        case 1:
           return PieChartSectionData(
             color: Colors.green,
             value: widget.qtyDone,
@@ -86,7 +97,7 @@ class AssignmentChartState extends State<AssignmentChart> {
             ),
             badgePositionPercentageOffset: .98,
           );
-        case 1:
+        case 2:
           return PieChartSectionData(
             color: Colors.red,
             value: widget.qtyBehindSchedule,

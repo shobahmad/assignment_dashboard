@@ -1,6 +1,7 @@
 import 'package:assignment_dashboard/bloc/task/tasklist_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
 import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
+import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,6 +11,12 @@ class TaskList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => TaskListWidgetState();
+
+  final String month;
+  final String divisionId;
+  final String status;
+
+  TaskList(this.month, this.divisionId, this.status);
 }
 
 class TaskListWidgetState extends State<TaskList> {
@@ -18,7 +25,7 @@ class TaskListWidgetState extends State<TaskList> {
   void initState() {
     super.initState();
     bloc = TaskListBloc();
-    bloc.getTaskListState();
+    bloc.getTaskListState(widget.month, widget.divisionId, widget.status);
   }
   
   @override
@@ -48,7 +55,7 @@ class TaskListWidgetState extends State<TaskList> {
                return Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: ListTile(
-                   leading: ProgressChart(percentage: snapshot.data.taskList[index].progress),
+                   leading: ProgressChart(percentage: snapshot.data.taskList[index].progress.toDouble()),
                    title: Container(
                      child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +66,7 @@ class TaskListWidgetState extends State<TaskList> {
                              Expanded(
                                child: TextField(
                                  controller:
-                                 TextEditingController(text: DateFormat.yMMMd().format(snapshot.data.taskList[index].dateStart)),
+                                 TextEditingController(text: DateUtil.formatToyMMMd(snapshot.data.taskList[index].dateStart)),
                                  readOnly: true,
                                  style: TextStyle(fontSize: 12),
                                  decoration: InputDecoration(
@@ -70,17 +77,28 @@ class TaskListWidgetState extends State<TaskList> {
                              Expanded(
                                child: TextField(
                                  controller:
-                                 TextEditingController(text: DateFormat.yMMMd().format(snapshot.data.taskList[index].dateEnd)),
+                                 TextEditingController(text: DateUtil.formatToyMMMd(snapshot.data.taskList[index].dateTarget)),
                                  readOnly: true,
                                  style: TextStyle(fontSize: 12),
                                  decoration: InputDecoration(
                                      border: InputBorder.none,
-                                     labelText: 'End Date'),
+                                     labelText: 'Target Date'),
+                               ),
+                             ),
+                             Expanded(
+                               child: TextField(
+                                 controller:
+                                 TextEditingController(text: DateUtil.formatToyMMMd(snapshot.data.taskList[index].dateFinish)),
+                                 readOnly: true,
+                                 style: TextStyle(fontSize: 12),
+                                 decoration: InputDecoration(
+                                     border: InputBorder.none,
+                                     labelText: 'Finish Date'),
                                ),
                              )
                            ],
                          ),
-                         Text(snapshot.data.taskList[index].title,
+                         Text(snapshot.data.taskList[index].taskName,
                              style: TextStyle(
                                  fontSize: 18, fontWeight: FontWeight.bold)),
                          Row(
@@ -89,7 +107,7 @@ class TaskListWidgetState extends State<TaskList> {
                              Expanded(
                                child: TextField(
                                  controller:
-                                 TextEditingController(text: snapshot.data.taskList[index].division.divisionDesc),
+                                 TextEditingController(text: snapshot.data.taskList[index].division),
                                  readOnly: true,
                                  style: TextStyle(fontSize: 12),
                                  decoration: InputDecoration(
@@ -100,7 +118,7 @@ class TaskListWidgetState extends State<TaskList> {
                              Expanded(
                                child: TextField(
                                  controller:
-                                 TextEditingController(text: snapshot.data.taskList[index].pic.name),
+                                 TextEditingController(text: snapshot.data.taskList[index].pic),
                                  readOnly: true,
                                  style: TextStyle(fontSize: 12),
                                  decoration: InputDecoration(
@@ -118,7 +136,7 @@ class TaskListWidgetState extends State<TaskList> {
                  ),
                );
              },
-             itemCount: snapshot.data.taskList.length,
+             itemCount: snapshot.data == null || snapshot.data.taskList == null ? 0 : snapshot.data.taskList.length,
            );
          },
        ),
