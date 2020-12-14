@@ -1,7 +1,7 @@
 enum Status {
+  on_progress,
   finish,
   behind_schedule,
-  on_progress
 }
 
 extension StatusExtension on Status {
@@ -14,6 +14,18 @@ extension StatusExtension on Status {
         return 2;
       case Status.on_progress:
         return 0;
+      default:
+        return null;
+    }
+  }
+  String get description {
+    switch (this) {
+      case Status.on_progress:
+        return 'On Progress';
+      case Status.finish:
+        return 'Done';
+      case Status.behind_schedule:
+        return 'Behind Schedule';
       default:
         return null;
     }

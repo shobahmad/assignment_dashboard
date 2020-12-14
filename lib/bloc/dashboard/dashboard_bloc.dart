@@ -19,16 +19,6 @@ class DashboardBloc {
     divisionModel = divisionModel == null ? accountModel.divisions.first : divisionModel;
     TaskDashboardModel taskDashboard = await _repository.getTaskSummary(time, accountModel.userId, divisionModel.divisionId);
 
-    if (taskDashboard.isError()) {
-      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.failed, selectedDate: time, taskDashboardModel: taskDashboard, listDivisionModel: accountModel.divisions));
-      return;
-    }
-
-    if (taskDashboard.isEmpty()) {
-      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time,));
-      return;
-    }
-
 
     List<DivisionModel> listDivisions = accountModel.divisions;
     List<DivisionModel> listSortedDivisions = listDivisions.toList();
@@ -47,6 +37,18 @@ class DashboardBloc {
     if (found) {
       listSortedDivisions.insert(0, divisionModel);
     }
+
+    if (taskDashboard.isError()) {
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.failed, selectedDate: time, taskDashboardModel: taskDashboard, listDivisionModel: listSortedDivisions));
+      return;
+    }
+
+    if (taskDashboard.isEmpty()) {
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time,));
+      return;
+    }
+
+
 
     _dashboardStateFetcher.sink.add(DashboardStream(
         state: DashboardState.success,

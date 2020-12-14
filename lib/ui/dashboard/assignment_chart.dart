@@ -8,10 +8,11 @@ class AssignmentChart extends StatefulWidget {
   final double qtyOnProgress;
   final double qtyDone;
 
-  final String month;
   final String divisionId;
+  final DateTime selectedDate;
+  final String divisionDescription;
 
-  const AssignmentChart({Key key, this.qtyBehindSchedule, this.qtyOnProgress, this.qtyDone, this.month, this.divisionId}) : super(key: key);
+  const AssignmentChart({Key key, this.qtyBehindSchedule, this.qtyOnProgress, this.qtyDone, this.selectedDate, this.divisionId, this.divisionDescription}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AssignmentChartState();
@@ -27,19 +28,19 @@ class AssignmentChartState extends State<AssignmentChart> {
       child: PieChart(
         PieChartData(
             pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-//              if (pieTouchResponse.touchInput is FlLongPressEnd) {
-                String index = pieTouchResponse.touchedSectionIndex.toString();
-                print('$index from  $pieTouchResponse');
-                if (pieTouchResponse.touchedSectionIndex != null) {
-                  Future.delayed(const Duration(milliseconds: 500), () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TaskList(
-                                widget.month, widget.divisionId, index)));
-                  });
-                }
-//              }
+              if (pieTouchResponse.touchedSectionIndex != null) {
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TaskList(
+                                selectedDate: widget.selectedDate,
+                                divisionId: widget.divisionId,
+                                status: pieTouchResponse.touchedSectionIndex,
+                                divisionDescription: widget.divisionDescription,
+                              )));
+                });
+              }
 
               setState(() {
                 if (pieTouchResponse.touchInput is FlPanEnd) {

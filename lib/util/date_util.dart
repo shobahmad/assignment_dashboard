@@ -17,4 +17,10 @@ class DateUtil {
     }
     return DateFormat.yMMMd().format(dateParam);
   }
+  static String formatToMMMMy(DateTime dateParam) {
+    if (dateParam == null) {
+      return "-";
+    }
+    return new DateFormat('MMMM y').format(dateParam);
+  }
 }

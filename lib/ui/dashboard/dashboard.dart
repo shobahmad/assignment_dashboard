@@ -3,6 +3,7 @@ import 'package:assignment_dashboard/bloc/dashboard/dashboard_state.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/ui/dashboard/profile_drawer.dart';
+import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -117,9 +118,12 @@ class DashboardScreenState extends State<DashboardScreen> {
                     qtyBehindSchedule:
                         snapshot.data.taskDashboardModel.qtyBehindSchedule,
                     qtyDone: snapshot.data.taskDashboardModel.qtyDone,
-                    qtyOnProgress: snapshot.data.taskDashboardModel.qtyOnProgress,
-                    month: snapshot.data.selectedDate.month.toString(),
-                    divisionId: snapshot.data.listDivisionModel.first.divisionId,
+                    qtyOnProgress:
+                        snapshot.data.taskDashboardModel.qtyOnProgress,
+                    selectedDate: snapshot.data.selectedDate,
+                    divisionId:
+                        snapshot.data.listDivisionModel.first.divisionId,
+                  divisionDescription: snapshot.data.listDivisionModel.first.divisionDesc,
                 )
               ],
             );
@@ -135,8 +139,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Card(
       color: Colors.white,
       child: ListTile(
-        title: Text(new DateFormat('MMMM y')
-            .format(selectedDate)),
+        title: Text(DateUtil.formatToMMMMy(selectedDate)),
         leading: Icon(Icons.calendar_today),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
