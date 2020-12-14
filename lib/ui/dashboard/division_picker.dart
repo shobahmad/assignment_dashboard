@@ -30,9 +30,9 @@ class _DivisionPickerState extends State<DivisionPicker> {
       value: dropdownValue,
       iconSize: 0,
       elevation: 24,
+      isExpanded: true,
       underline: Container(
         height: 0,
-        color: Colors.blueAccent,
       ),
       onChanged: (DivisionModel newValue) {
         setState(() {
@@ -45,7 +45,7 @@ class _DivisionPickerState extends State<DivisionPicker> {
       },
       items: widget.listDivisions
           .map((value) => DropdownMenuItem<DivisionModel>(
-              value: value, child: Text(value.divisionDesc)))
+              value: value, child: Text(value.divisionDesc, style: TextStyle(fontSize: 12),)))
           .toList(),
     );
   }

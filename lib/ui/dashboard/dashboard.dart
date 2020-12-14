@@ -3,10 +3,10 @@ import 'package:assignment_dashboard/bloc/dashboard/dashboard_state.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/ui/dashboard/profile_drawer.dart';
+import 'package:assignment_dashboard/ui/tasklist/recenttask.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 import 'assignment_chart.dart';
@@ -77,11 +77,21 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (snapshot.data.state == DashboardState.failed) {
             return Column(
               children: [
-                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-                SizedBox(
-                  height: 2,
+                Row(
+                  children: [
+                    Expanded(
+                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                    ),
+                    Expanded(
+                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                    )
+                  ],
                 ),
-                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+//                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+//                SizedBox(
+//                  height: 2,
+//                ),
+//                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
                 SizedBox(
                   height: 2,
                 ),
@@ -103,11 +113,21 @@ class DashboardScreenState extends State<DashboardScreen> {
             return ListView(
               shrinkWrap: true,
               children: [
-                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
-                SizedBox(
-                  height: 2,
+//                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
+//                SizedBox(
+//                  height: 2,
+//                ),
+//                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                Row(
+                  children: [
+                    Expanded(
+                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                    ),
+                    Expanded(
+                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                    )
+                  ],
                 ),
-                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
                 SizedBox(
                   height: 2,
                 ),
@@ -140,8 +160,8 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Card(
       color: Colors.white,
       child: ListTile(
-        title: Text(DateUtil.formatToMMMMy(selectedDate)),
-        leading: Icon(Icons.calendar_today),
+        title: Text(DateUtil.formatToMMMMy(selectedDate), style: TextStyle(fontSize: 12),),
+        leading: Icon(Icons.calendar_today, color: Colors.blue),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
           showMonthPicker(
@@ -165,7 +185,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 8,),
-        Text(' Recent updates', style: TextStyle(color: Colors.green, fontSize: 16),),
+        Text('    Recent updates', style: TextStyle(color: Colors.green, fontSize: 16),),
         SizedBox(height: 2,),
         Card(
             color: Colors.white,
@@ -216,7 +236,7 @@ class DashboardScreenState extends State<DashboardScreen> {
               style: TextStyle(color: Colors.green, fontSize: 12)),
           trailing: Icon(Icons.chevron_right),
           onTap: () {
-
+            Navigator.push(context, MaterialPageRoute(builder: (context) => RecentTask()));
           },
         )
       ],
@@ -230,7 +250,9 @@ class DashboardScreenState extends State<DashboardScreen> {
             title: DivisionPicker(listDivisions: listDivisions, onChange: (selectedDivision) {
               dashboardBloc.getDashboardState(selectedDate, selectedDivision);
             },),
-            leading: Icon(Icons.group),
-            trailing: Icon(Icons.chevron_right)));
+            leading: Icon(Icons.group, color: Colors.blue,),
+            trailing: Icon(Icons.chevron_right)
+        )
+    );
   }
 }

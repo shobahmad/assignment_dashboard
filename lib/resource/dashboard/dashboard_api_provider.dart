@@ -16,7 +16,7 @@ class DashboardApiProvider {
   Client client = Client();
   final _baseUrl = "http://202.83.121.90:3000";
 
-  Future<RecentTaskResponseModel> getRecentTask(DateTime dateTime, String userId, bool allTask) async {
+  Future<RecentTaskResponseModel> getRecentTask(String userId, bool allTask) async {
     Map data = {
       'request': {
         'type': allTask ? '1' : '0',

@@ -53,7 +53,7 @@ class DashboardBloc {
     _dashboardStateFetcher.sink.add(DashboardStream(
         state: DashboardState.success,
         selectedDate: time,
-        recentTaskModel: await _repository.getRecentTask(time, accountModel.userId, false),
+        recentTaskModel: await _repository.getRecentTask(accountModel.userId, false),
         taskDashboardModel: taskDashboard,
         listDivisionModel: listSortedDivisions
     ));

@@ -33,7 +33,7 @@ class Repository {
     return accountStorage == null ? null : AccountModel.json(accountStorage);
   }
 
-  Future<RecentTaskResponseModel> getRecentTask(DateTime dateTime, String userId, bool allTask) => dashboardApiProvider.getRecentTask(dateTime, userId, allTask);
+  Future<RecentTaskResponseModel> getRecentTask(String userId, bool allTask) => dashboardApiProvider.getRecentTask(userId, allTask);
   Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);
