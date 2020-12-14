@@ -1,15 +1,15 @@
 
 import 'package:assignment_dashboard/model/account_model.dart';
 
-class LoginModel {
+class LoginResponseModel {
   int status;
   String message;
   String errorMessage;
   AccountModel data;
 
-  LoginModel(this.errorMessage);
+  LoginResponseModel(this.errorMessage);
 
-  LoginModel.fromJson(Map<String, dynamic> parsedJson) {
+  LoginResponseModel.fromJson(Map<String, dynamic> parsedJson) {
     if (parsedJson['status'] != null) {
       status = parsedJson['status'];
     }

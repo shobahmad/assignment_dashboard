@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
-import 'package:assignment_dashboard/model/task_summary_model.dart';
+import 'package:assignment_dashboard/model/task_dashboard_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
 import 'dashboard_state.dart';
@@ -11,18 +12,25 @@ class DashboardBloc {
   final _repository = Repository();
   Stream<DashboardStream> get state => _dashboardStateFetcher.stream;
 
-  getDashboarddState(DateTime time, DivisionModel divisionModel) async {
+  getDashboardState(DateTime time, DivisionModel divisionModel) async {
     _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.loading));
 
-    TaskSummaryModel taskSummaryModel = await _repository.getTaskSummary(time);
+    AccountModel accountModel = _repository.getAccount();
+    divisionModel = divisionModel == null ? accountModel.divisions.first : divisionModel;
+    TaskDashboardModel taskDashboard = await _repository.getTaskSummary(time, accountModel.userId, divisionModel.divisionId);
 
-    if (taskSummaryModel.isEmpty()) {
+    if (taskDashboard.isError()) {
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.failed, selectedDate: time, taskDashboardModel: taskDashboard));
+      return;
+    }
+
+    if (taskDashboard.isEmpty()) {
       _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time,));
       return;
     }
 
 
-    List<DivisionModel> listDivisions = _repository.getAccount().divisions;
+    List<DivisionModel> listDivisions = accountModel.divisions;
     List<DivisionModel> listSortedDivisions = listDivisions.toList();
     var found = false;
     for (var i = 0; i < listDivisions.length; i++) {
@@ -44,7 +52,7 @@ class DashboardBloc {
         state: DashboardState.success,
         selectedDate: time,
         recentTaskModel: await _repository.getRecentTask(time),
-        taskSummaryModel: taskSummaryModel,
+        taskDashboardModel: taskDashboard,
         listDivisionModel: listSortedDivisions
     ));
   }

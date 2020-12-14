@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:assignment_dashboard/model/login_model.dart';
+import 'package:assignment_dashboard/model/login_response_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
 import 'login_state.dart';
@@ -15,7 +15,7 @@ class LoginBloc {
 
   postLogin(var username, var password) async {
     _loginStateFetcher.sink.add(LoginStream(LoginState.loading, ''));
-    LoginModel loginModel = await _repository.postLogin(username.trim(), password);
+    LoginResponseModel loginModel = await _repository.postLogin(username.trim(), password);
 
     if (loginModel == null) {
       _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));

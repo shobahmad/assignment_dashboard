@@ -24,7 +24,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     dashboardBloc = DashboardBloc();
-    dashboardBloc.getDashboarddState(DateTime.now(), null);
+    dashboardBloc.getDashboardState(DateTime.now(), null);
   }
 
   @override
@@ -43,7 +43,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       body: StreamBuilder(
         stream: dashboardBloc.state,
         builder: (context, AsyncSnapshot<DashboardStream> snapshot) {
-          if (snapshot.data.state == null || snapshot.data.state == DashboardState.loading) {
+          if (snapshot.data == null || snapshot.data.state == null || snapshot.data.state == DashboardState.loading) {
             return Center(
                 child: SpinKitThreeBounce(
               color: Colors.blue,
@@ -72,6 +72,28 @@ class DashboardScreenState extends State<DashboardScreen> {
               ],
             );
           }
+
+          if (snapshot.data.state == DashboardState.failed) {
+            return Column(
+              children: [
+                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                SizedBox(
+                  height: 2,
+                ),
+                recentTask(snapshot.data.recentTaskModel),
+                SizedBox(
+                  height: 24,
+                ),
+                Center(
+                  child: ListTile(
+                    leading: Icon(Icons.pending_actions, size: 128,),
+                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.taskDashboardModel.errorMessage}'),
+                    subtitle: Text('Please try again later'),
+                  ),
+                )
+              ],
+            );
+          }
           if (snapshot.data.state == DashboardState.success) {
             return Column(
               children: [
@@ -89,9 +111,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                 ),
                 AssignmentChart(
                     qtyBehindSchedule:
-                        snapshot.data.taskSummaryModel.qtyBehindSchedule,
-                    qtyDone: snapshot.data.taskSummaryModel.qtyDone,
-                    qtyOnProgress: snapshot.data.taskSummaryModel.qtyOnProgress)
+                        snapshot.data.taskDashboardModel.qtyBehindSchedule,
+                    qtyDone: snapshot.data.taskDashboardModel.qtyDone,
+                    qtyOnProgress: snapshot.data.taskDashboardModel.qtyOnProgress)
               ],
             );
           }
@@ -120,7 +142,7 @@ class DashboardScreenState extends State<DashboardScreen> {
             if (date == null) {
               return;
             }
-            dashboardBloc.getDashboarddState(date, divisionModel);
+            dashboardBloc.getDashboardState(date, divisionModel);
           });
         },
       ),
@@ -155,7 +177,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         color: Colors.white,
         child: ListTile(
             title: DivisionPicker(listDivisions: listDivisions, onChange: (selectedDivision) {
-              dashboardBloc.getDashboarddState(selectedDate, selectedDivision);
+              dashboardBloc.getDashboardState(selectedDate, selectedDivision);
             },),
             leading: Icon(Icons.group),
             trailing: Icon(Icons.chevron_right)));

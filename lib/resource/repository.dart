@@ -1,10 +1,10 @@
 import 'package:assignment_dashboard/const/storage.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
-import 'package:assignment_dashboard/model/login_model.dart';
+import 'package:assignment_dashboard/model/login_response_model.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
+import 'package:assignment_dashboard/model/task_dashboard_model.dart';
 import 'package:assignment_dashboard/model/task_model.dart';
-import 'package:assignment_dashboard/model/task_summary_model.dart';
 import 'package:assignment_dashboard/resource/task/task_api_provider.dart';
 import 'package:localstorage/localstorage.dart';
 
@@ -21,7 +21,7 @@ class Repository {
   saveToken(String token) => _storage.setItem(FieldKey.token.value, token);
   String getToken() => _storage.getItem(FieldKey.token.value);
 
-  Future<LoginModel> postLogin(String username, String password) => loginApiProvider.postLogin(username, password);
+  Future<LoginResponseModel> postLogin(String username, String password) => loginApiProvider.postLogin(username, password);
 //
   Future saveAccount(AccountModel accountModel) => _storage.setItem(FieldKey.account.value, accountModel.toJSONEncodable());
   AccountModel getAccount() {
@@ -31,7 +31,7 @@ class Repository {
 
   Future<RecentTaskModel> getRecentTask(DateTime dateTime) => dashboardApiProvider.getRecentTask(dateTime);
   Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
-  Future<TaskSummaryModel> getTaskSummary(DateTime dateTime) => dashboardApiProvider.getTaskSummary(dateTime);
+  Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
   Future<List<TaskModel>> getTaskList() => taskApiProvider.getTaskList();
 
 

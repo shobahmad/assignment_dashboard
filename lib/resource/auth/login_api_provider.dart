@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:assignment_dashboard/model/login_model.dart';
+import 'package:assignment_dashboard/model/login_response_model.dart';
 import 'package:http/http.dart' show Client;
 
 import '../../app.dart';
@@ -10,7 +10,7 @@ class LoginApiProvider {
   final _baseUrl = "http://202.83.121.90:3000";
 
 
-  Future<LoginModel> postLogin(String username, String password) async {
+  Future<LoginResponseModel> postLogin(String username, String password) async {
     Map data = {
       'request' : {
         'username': username,
@@ -26,18 +26,18 @@ class LoginApiProvider {
     App.alice.onHttpResponse(response);
 
     if (response == null) {
-      return LoginModel('Unexpected for empty result, please try again later');
+      return LoginResponseModel('Unexpected for empty result, please try again later');
     }
 
     if (response.statusCode == 200) {
-      return LoginModel.fromJson(json.decode(response.body));
+      return LoginResponseModel.fromJson(json.decode(response.body));
     }
 
-    LoginModel responseBody = LoginModel.fromJson(json.decode(response.body));
+    LoginResponseModel responseBody = LoginResponseModel.fromJson(json.decode(response.body));
     if (responseBody.message != null) {
       return responseBody;
     }
 
-    return LoginModel(response.statusCode.toString() + ':Unexpected result, please try again later');
+    return LoginResponseModel(response.statusCode.toString() + ':Unexpected result, please try again later');
   }
 }
