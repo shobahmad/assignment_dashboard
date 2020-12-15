@@ -1,13 +1,11 @@
-import 'package:assignment_dashboard/const/status.dart';
 import 'package:assignment_dashboard/const/storage.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/login_response_model.dart';
-import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/model/recent_task_response_model.dart';
 import 'package:assignment_dashboard/model/task_dashboard_model.dart';
+import 'package:assignment_dashboard/model/task_detail_response_model.dart';
 import 'package:assignment_dashboard/model/task_list_response_model.dart';
-import 'package:assignment_dashboard/model/task_model.dart';
 import 'package:assignment_dashboard/resource/task/task_api_provider.dart';
 import 'package:localstorage/localstorage.dart';
 
@@ -39,6 +37,7 @@ class Repository {
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);
   Future<TaskListResponseModel> getMyTask(String month, String userId) => taskApiProvider.getTaskListByUser(month, userId);
   Future<TaskListResponseModel> getTaskByKeywords(String keyword, String userId) => taskApiProvider.getTaskListByKeywords(keyword, userId);
+  Future<TaskDetailResponseModel> getTaskDetail(int taskId) => taskApiProvider.getTaskDetail(taskId);
 
 
   dispose() {

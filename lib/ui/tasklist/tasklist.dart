@@ -2,7 +2,7 @@ import 'package:assignment_dashboard/bloc/task/tasklist_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
 import 'package:assignment_dashboard/const/status.dart';
 import 'package:assignment_dashboard/ui/common/list_item_task.dart';
-import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
+import 'package:assignment_dashboard/ui/taskdetail/task_detail.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +100,14 @@ class TaskListWidgetState extends State<TaskList> {
           }
 
           return ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
-            print('Click ${value.taskName}');
+            Future.delayed(const Duration(seconds: 0), () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TaskDetail(
+                        taskId: value.taskId, taskName: value.taskName
+                      )));
+            });
           },);
         },
       ),

@@ -17,6 +17,13 @@ class DateUtil {
     }
     return DateFormat.yMMMd().format(dateParam);
   }
+  static String formatToyMdHms(DateTime dateParam) {
+    if (dateParam == null) {
+      return "-";
+    }
+    return '${DateFormat.yMMMd().format(dateParam)}\n'
+           '${DateFormat.Hms().format(dateParam)}';
+  }
   static String formatToMMMMy(DateTime dateParam) {
     if (dateParam == null) {
       return "-";

@@ -1,12 +1,9 @@
 import 'package:assignment_dashboard/bloc/task/mytask_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
-import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/month_picker_param.dart';
 import 'package:assignment_dashboard/ui/common/field_month_picker.dart';
 import 'package:assignment_dashboard/ui/common/list_item_task.dart';
-import 'package:assignment_dashboard/ui/dashboard/division_picker.dart';
-import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
-import 'package:assignment_dashboard/util/date_util.dart';
+import 'package:assignment_dashboard/ui/taskdetail/task_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -94,9 +91,20 @@ class TaskListWidgetState extends State<MyTask> {
         SizedBox(
           height: 2,
         ),
-        ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
-          print('Click ${value.taskName}');
-          },)
+        ListItemTask(
+          listTask: snapshot.data.taskList,
+          onItemClick: (value) {
+            Future.delayed(const Duration(seconds: 0), () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TaskDetail(
+                            taskId: value.taskId,
+                            taskName: value.taskName,
+                          )));
+            });
+          },
+        )
       ],
     );
   }
