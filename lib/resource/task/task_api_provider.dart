@@ -48,4 +48,68 @@ class TaskApiProvider {
     }
   }
 
+  Future<TaskListResponseModel> getTaskListByUser(String month, String userId, String divisionId) async {
+    Map data = {
+      'request': {
+        'month': month,
+        'user_id': userId,
+        'division_id': divisionId
+      }
+    };
+    var body = json.encode(data);
+
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/tasks/user",
+          headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      App.alice.onHttpResponse(response);
+
+      if (response == null) {
+        return TaskListResponseModel.error('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return TaskListResponseModel.json(json.decode(response.body));
+      }
+
+      return TaskListResponseModel.error(json.decode(response.body)['data']);
+    } catch(e, stacktrace) {
+      return TaskListResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
+    }
+  }
+  Future<TaskListResponseModel> getTaskListByKeywords(String keyword, String userId) async {
+    Map data = {
+      'request': {
+        'keyword': keyword,
+        'user_id': userId
+      }
+    };
+    var body = json.encode(data);
+
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/tasks/keyword",
+          headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      App.alice.onHttpResponse(response);
+
+      if (response == null) {
+        return TaskListResponseModel.error('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return TaskListResponseModel.json(json.decode(response.body));
+      }
+
+      return TaskListResponseModel.error(json.decode(response.body)['data']);
+    } catch(e, stacktrace) {
+      return TaskListResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
+    }
+  }
+
 }

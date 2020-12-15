@@ -1,13 +1,14 @@
 import 'package:assignment_dashboard/bloc/dashboard/dashboard_bloc.dart';
 import 'package:assignment_dashboard/bloc/dashboard/dashboard_state.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
+import 'package:assignment_dashboard/model/month_picker_param.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
+import 'package:assignment_dashboard/ui/common/field_month_picker.dart';
 import 'package:assignment_dashboard/ui/dashboard/profile_drawer.dart';
 import 'package:assignment_dashboard/ui/tasklist/recenttask.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 import 'assignment_chart.dart';
 import 'division_picker.dart';
@@ -55,7 +56,16 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (snapshot.data.state == DashboardState.empty) {
             return Column(
               children: [
-                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
+                Row(
+                  children: [
+                    Expanded(
+                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                    ),
+                    Expanded(
+                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                    )
+                  ],
+                ),
                 SizedBox(
                   height: 2,
                 ),
@@ -66,8 +76,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                 Center(
                   child: ListTile(
                     leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\n\nThere is no assigmment for selected month!'),
-                    subtitle: Text('Please choose another month'),
+                    title: Text('\n\nThere is no assigmment for selected parameters!'),
+                    subtitle: Text('Please choose another parameters'),
                   ),
                 )
               ],
@@ -87,11 +97,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                     )
                   ],
                 ),
-//                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-//                SizedBox(
-//                  height: 2,
-//                ),
-//                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
                 SizedBox(
                   height: 2,
                 ),
@@ -102,8 +107,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                 Center(
                   child: ListTile(
                     leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.taskDashboardModel.errorMessage}'),
-                    subtitle: Text('Please try again later'),
+                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.taskDashboardModel.errorMessage}\n'),
+                    subtitle: Text('Please try again with another parameters'),
                   ),
                 )
               ],
@@ -157,27 +162,15 @@ class DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget monthPicker(DateTime selectedDate, DivisionModel divisionModel) {
-    return Card(
-      color: Colors.white,
-      child: ListTile(
-        title: Text(DateUtil.formatToMMMMy(selectedDate), style: TextStyle(fontSize: 12),),
-        leading: Icon(Icons.calendar_today, color: Colors.blue),
-        trailing: Icon(Icons.chevron_right),
-        onTap: () {
-          showMonthPicker(
-              context: context,
-              firstDate: DateTime(DateTime.now().year - 1, 5),
-              lastDate: DateTime.now(),
-              initialDate: selectedDate
-          ).then((date) {
-            if (date == null) {
-              return;
-            }
-            dashboardBloc.getDashboardState(date, divisionModel);
-          });
-        },
-      ),
-    );
+    return FieldMonthPicker(
+        param: MonthPickerParam(selectedDate, divisionModel),
+        onChanged: (param) {
+          if (param.selectedDate == null) {
+            return;
+          }
+          dashboardBloc.getDashboardState(
+              param.selectedDate, param.divisionModel);
+        });
   }
 
   Widget recentTask(List<RecentTaskModel> recentTaskModel) {

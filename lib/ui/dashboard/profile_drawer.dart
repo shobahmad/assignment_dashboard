@@ -1,6 +1,7 @@
 import 'package:assignment_dashboard/bloc/profile/profile_bloc.dart';
 import 'package:assignment_dashboard/bloc/profile/profile_state.dart';
 import 'package:assignment_dashboard/ui/auth/splash.dart';
+import 'package:assignment_dashboard/ui/tasklist/mytask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -75,6 +76,9 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                           leading: Icon(Icons.assignment),
                           title: Text("Task List"),
                           onTap: () {
+                            Future.delayed(const Duration(seconds: 0), () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MyTask()));
+                            });
                           },
                         ),
                         ListTile(
