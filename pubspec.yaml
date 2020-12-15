@@ -40,6 +40,7 @@ dependencies:
   month_picker_dialog: ^0.3.3
   intl: 0.17.0-nullsafety.2
   crypto: ^2.1.5
+  easy_debounce: ^1.0.2
 
 
 

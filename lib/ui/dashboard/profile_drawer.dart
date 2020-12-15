@@ -1,7 +1,8 @@
 import 'package:assignment_dashboard/bloc/profile/profile_bloc.dart';
 import 'package:assignment_dashboard/bloc/profile/profile_state.dart';
 import 'package:assignment_dashboard/ui/auth/splash.dart';
-import 'package:assignment_dashboard/ui/tasklist/mytask.dart';
+import 'package:assignment_dashboard/ui/tasklist/my_task.dart';
+import 'package:assignment_dashboard/ui/tasklist/search_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -76,6 +77,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                           leading: Icon(Icons.assignment),
                           title: Text("Task List"),
                           onTap: () {
+                            Navigator.pop(context);
                             Future.delayed(const Duration(seconds: 0), () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => MyTask()));
                             });
@@ -84,7 +86,12 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                         ListTile(
                           leading: Icon(Icons.search),
                           title: Text("Search"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pop(context);
+                            Future.delayed(const Duration(seconds: 0), () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchTask()));
+                            });
+                          },
                         ),
                         const Expanded(child: SizedBox()),
                         const Divider(height: 1.0, color: Colors.grey),

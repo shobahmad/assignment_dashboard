@@ -15,7 +15,7 @@ class SearchTaskBloc {
     _tasklistStateFetcher.sink.add(TaskListStream(state: TaskListState.loading));
     AccountModel accountModel = _repository.getAccount();
 
-    TaskListResponseModel taskList = await _repository.getTaskByKeywords(accountModel.userId, keyword);
+    TaskListResponseModel taskList = await _repository.getTaskByKeywords(keyword, accountModel.userId);
 
     if (taskList.errorMessage != null) {
       _tasklistStateFetcher.sink.add(TaskListStream(state: TaskListState.failed, errorMessage: taskList.errorMessage));
