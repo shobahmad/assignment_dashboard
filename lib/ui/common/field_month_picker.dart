@@ -1,4 +1,3 @@
-import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/month_picker_param.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class FieldMonthPicker extends StatefulWidget {
   final ValueChanged<MonthPickerParam> onChanged;
-  MonthPickerParam param;
+  final MonthPickerParam param;
   
   FieldMonthPicker({Key key, this.param, this.onChanged}) : super(key: key);
 

@@ -24,7 +24,7 @@ class TaskListWidgetState extends State<MyTask> {
   void initState() {
     super.initState();
     bloc = MyTaskBloc();
-    bloc.getTaskListState(DateTime.now(), null);
+    bloc.getTaskListState(DateTime.now());
   }
 
   @override
@@ -206,39 +206,18 @@ class TaskListWidgetState extends State<MyTask> {
   }
 
   Widget parameter(AsyncSnapshot<TaskListStream> snapshot) {
-    return Row(
-      children: [
-        Expanded(
-          child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-        ),
-        Expanded(
-          child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
-        )
-      ],
-    );
+    return monthPicker(snapshot.data.selectedDate);
   }
 
-  Widget monthPicker(DateTime selectedDate, DivisionModel divisionModel) {
+  Widget monthPicker(DateTime selectedDate) {
     return FieldMonthPicker(
-        param: MonthPickerParam(selectedDate, divisionModel),
+        param: MonthPickerParam(selectedDate, null),
         onChanged: (param) {
           if (param.selectedDate == null) {
             return;
           }
 
-          bloc.getTaskListState(param.selectedDate, param.divisionModel);
+          bloc.getTaskListState(param.selectedDate);
         });
-  }
-  Widget division(List<DivisionModel> listDivisions, DateTime selectedDate) {
-    return Card(
-        color: Colors.white,
-        child: ListTile(
-            title: DivisionPicker(listDivisions: listDivisions, onChange: (selectedDivision) {
-              bloc.getTaskListState(selectedDate, selectedDivision);
-            },),
-            leading: Icon(Icons.group, color: Colors.blue,),
-            trailing: Icon(Icons.chevron_right)
-        )
-    );
   }
 }

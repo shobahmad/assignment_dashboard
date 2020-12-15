@@ -48,12 +48,11 @@ class TaskApiProvider {
     }
   }
 
-  Future<TaskListResponseModel> getTaskListByUser(String month, String userId, String divisionId) async {
+  Future<TaskListResponseModel> getTaskListByUser(String month, String userId) async {
     Map data = {
       'request': {
         'month': month,
-        'user_id': userId,
-        'division_id': divisionId
+        'user_id': userId
       }
     };
     var body = json.encode(data);

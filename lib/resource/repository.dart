@@ -37,7 +37,7 @@ class Repository {
   Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);
-  Future<TaskListResponseModel> getMyTask(String month, String userId, String divisionId) => taskApiProvider.getTaskListByUser(month, userId, divisionId);
+  Future<TaskListResponseModel> getMyTask(String month, String userId) => taskApiProvider.getTaskListByUser(month, userId);
   Future<TaskListResponseModel> getTaskByKeywords(String keyword, String userId) => taskApiProvider.getTaskListByKeywords(keyword, userId);
 
 

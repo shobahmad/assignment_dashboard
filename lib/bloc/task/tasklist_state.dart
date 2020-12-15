@@ -9,10 +9,8 @@ class TaskListStream {
     String errorMessage;
 
     DateTime selectedDate;
-    DivisionModel selectedDivisionModel;
-    List<DivisionModel> listDivisionModel;
 
-    TaskListStream({Key key, this.state, this.taskList, this.errorMessage, this.selectedDate, this.selectedDivisionModel, this.listDivisionModel});
+    TaskListStream({Key key, this.state, this.taskList, this.errorMessage, this.selectedDate});
 }
 
 enum TaskListState {
