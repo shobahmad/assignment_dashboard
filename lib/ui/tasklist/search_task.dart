@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/bloc/task/searchtask_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
+import 'package:assignment_dashboard/ui/common/list_item_task.dart';
 import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -95,111 +96,9 @@ class TaskListWidgetState extends State<SearchTask> {
       );
     }
 
-    return ListView.separated(
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return Divider(
-          color: Colors.grey,
-        );
-      },
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: ProgressChart(
-              percentage: snapshot.data.taskList[index].progress == null
-                  ? 0.0
-                  : snapshot.data.taskList[index].progress.toDouble()),
-          title: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: TextEditingController(
-                            text: DateUtil.formatToyMMMd(snapshot
-                                .data.taskList[index].dateStart)),
-                        readOnly: true,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Start Date'),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: TextEditingController(
-                            text: DateUtil.formatToyMMMd(snapshot
-                                .data.taskList[index].dateTarget)),
-                        readOnly: true,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Target Date'),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: TextEditingController(
-                            text: DateUtil.formatToyMMMd(snapshot
-                                .data.taskList[index].dateFinish)),
-                        readOnly: true,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Finish Date'),
-                      ),
-                    )
-                  ],
-                ),
-                Text(snapshot.data.taskList[index].taskName,
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(snapshot.data.taskList[index].taskDescription,
-                    style: TextStyle(
-                        fontSize: 14, fontStyle: FontStyle.italic)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: TextEditingController(
-                            text:
-                            snapshot.data.taskList[index].division),
-                        readOnly: true,
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Division'),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: TextEditingController(
-                            text: snapshot.data.taskList[index].pic),
-                        readOnly: true,
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person_pin),
-                            border: InputBorder.none,
-                            labelText: 'PIC'),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          onTap: () {},
-        );
-      },
-      itemCount: snapshot.data == null || snapshot.data.taskList == null
-          ? 0
-          : snapshot.data.taskList.length,
-    );
+    return ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
+      print('Click ${value.taskName}');
+    },);
   }
 
 
