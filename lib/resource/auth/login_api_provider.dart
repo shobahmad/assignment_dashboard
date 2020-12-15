@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:assignment_dashboard/model/login_response_model.dart';
-import 'package:http/http.dart' show Client;
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' show Client, Response;
 
 import '../../app.dart';
 import 'package:crypto/crypto.dart';
@@ -19,25 +20,32 @@ class LoginApiProvider {
       }
     };
     var body = json.encode(data);
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/auth",
+              headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      App.alice.onHttpResponse(response);
 
-    final response = await client.post("$_baseUrl/dashboardtm/auth",
-        headers: {"Content-Type": "application/json"}, body: body);
+      if (response == null) {
+        return LoginResponseModel('Unexpected for empty result, please try again later');
+      }
 
-    App.alice.onHttpResponse(response);
+      if (response.statusCode == 200) {
+        return LoginResponseModel.fromJson(json.decode(response.body));
+      }
 
-    if (response == null) {
-      return LoginResponseModel('Unexpected for empty result, please try again later');
+      LoginResponseModel responseBody = LoginResponseModel.fromJson(json.decode(response.body));
+      if (responseBody.message != null) {
+        return responseBody;
+      }
+
+      return LoginResponseModel(response.statusCode.toString() + ':Unexpected result, please try again later');
+    } catch(e, stacktrace) {
+      return LoginResponseModel('Error occurred while Communication with Server.\n${stacktrace.toString()}');
     }
 
-    if (response.statusCode == 200) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
-    }
-
-    LoginResponseModel responseBody = LoginResponseModel.fromJson(json.decode(response.body));
-    if (responseBody.message != null) {
-      return responseBody;
-    }
-
-    return LoginResponseModel(response.statusCode.toString() + ':Unexpected result, please try again later');
   }
 }

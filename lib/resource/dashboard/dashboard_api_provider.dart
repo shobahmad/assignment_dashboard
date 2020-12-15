@@ -25,24 +25,27 @@ class DashboardApiProvider {
     };
     var body = json.encode(data);
 
-    final response = await client
-        .post("$_baseUrl/dashboardtm/recentupdates",
-        headers: {"Content-Type": "application/json"}, body: body)
-        .catchError((error, stackTrace) {
-      return RecentTaskResponseModel.error(
-          'Error occurred while Communication with Server. ${error.toString()}\n${stackTrace.toString()}');
-    });
-    App.alice.onHttpResponse(response);
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/recentupdates",
+          headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      App.alice.onHttpResponse(response);
 
-    if (response == null) {
-      return RecentTaskResponseModel.error('Unexpected for empty result, please try again later');
+      if (response == null) {
+        return RecentTaskResponseModel.error('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return RecentTaskResponseModel.json(json.decode(response.body));
+      }
+
+      return RecentTaskResponseModel.error(json.decode(response.body)['data']);
+    } catch(e, stacktrace) {
+      return RecentTaskResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
     }
-
-    if (response.statusCode == 200) {
-      return RecentTaskResponseModel.json(json.decode(response.body));
-    }
-
-    return RecentTaskResponseModel.error(json.decode(response.body)['data']);
   }
 
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) async {

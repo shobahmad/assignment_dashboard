@@ -1,4 +1,4 @@
-package com.example.assignment_dashboard
+package id.bigmind.dashboard.monitoring
 
 import io.flutter.embedding.android.FlutterActivity
 

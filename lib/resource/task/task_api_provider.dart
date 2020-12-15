@@ -25,24 +25,27 @@ class TaskApiProvider {
     };
     var body = json.encode(data);
 
-    final response = await client
-        .post("$_baseUrl/dashboardtm/tasks/status",
-        headers: {"Content-Type": "application/json"}, body: body)
-        .catchError((error, stackTrace) {
-      return TaskListResponseModel.error(
-          'Error occurred while Communication with Server. ${error.toString()}\n${stackTrace.toString()}');
-    });
-    App.alice.onHttpResponse(response);
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/tasks/status",
+          headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      App.alice.onHttpResponse(response);
 
-    if (response == null) {
-      return TaskListResponseModel.error('Unexpected for empty result, please try again later');
+      if (response == null) {
+        return TaskListResponseModel.error('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return TaskListResponseModel.json(json.decode(response.body));
+      }
+
+      return TaskListResponseModel.error(json.decode(response.body)['data']);
+    } catch(e, stacktrace) {
+      return TaskListResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
     }
-
-    if (response.statusCode == 200) {
-      return TaskListResponseModel.json(json.decode(response.body));
-    }
-
-    return TaskListResponseModel.error(json.decode(response.body)['data']);
   }
 
 }
