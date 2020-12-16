@@ -59,63 +59,66 @@ class TaskListWidgetState extends State<TaskDetail> {
                  );
              }
 
-             return ListView(
-              shrinkWrap: true,
+             return Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
                   leading: ProgressChart(
                       percentage:
                           snapshot.data.taskDetail.progressPercent.toDouble()),
-                  title: Row(
+                  subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            TextField(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextField(
                               controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(
-                                      snapshot.data.taskDetail.dateStart)),
+                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateStart)),
                               readOnly: true,
+                              style: TextStyle(fontSize: 12),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   labelText: 'Start Date'),
                             ),
-                            TextField(
+                          ),
+                          Expanded(
+                            child: TextField(
                               controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(
-                                      snapshot.data.taskDetail.dateTarget)),
+                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateTarget)),
                               readOnly: true,
+                              style: TextStyle(fontSize: 12),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   labelText: 'Target Date'),
                             ),
-                            TextField(
+                          ),
+                          Expanded(
+                            child: TextField(
                               controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(
-                                      snapshot.data.taskDetail.dateFinish)),
+                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateFinish)),
                               readOnly: true,
+                              style: TextStyle(fontSize: 12),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   labelText: 'Finish Date'),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
-                      Expanded(
-                        child: TextField(
-                          controller: TextEditingController(
-                              text: snapshot.data.taskDetail.pic),
-                          readOnly: true,
-                          maxLines: 2,
-                          style: TextStyle(fontSize: 12),
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person_pin),
-                              border: InputBorder.none,
-                              labelText: 'PIC'),
-                        ),
-                      )
                     ],
+                  ),
+                  title: TextField(
+                    controller: TextEditingController(
+                        text: snapshot.data.taskDetail.pic),
+                    readOnly: true,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 12),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person_pin),
+                        border: InputBorder.none,
+                        labelText: 'PIC'),
                   ),
                 ),
                 ListTile(
@@ -126,6 +129,9 @@ class TaskListWidgetState extends State<TaskDetail> {
                       style:
                           TextStyle(fontSize: 14, fontStyle: FontStyle.italic)),
                 ),
+                snapshot.data.allowUpdate
+                    ? inputProgress(snapshot.data.taskDetail.progressPercent)
+                    : Container(),
                 SizedBox(
                   height: 0.3,
                   child: Container(
@@ -140,36 +146,20 @@ class TaskListWidgetState extends State<TaskDetail> {
                   style: TextStyle(color: Colors.green, fontSize: 16),
                 ),
                 SizedBox(
-                  height: 2,
+                  height: 8,
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      color: Colors.grey,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      subtitle: Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                snapshot.data.taskDetail.progress[index]
-                                    .progressDescription,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text(
-                              '${snapshot.data.taskDetail.progress[index].progressPercent}%',
-                              style: TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      title: Row(
+                Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        color: Colors.grey,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return Row(
                         children: [
+                          SizedBox(width: 16,),
                           Expanded(
                             child: TextField(
                               controller: TextEditingController(
@@ -179,9 +169,25 @@ class TaskListWidgetState extends State<TaskDetail> {
                               maxLines: 2,
                               style: TextStyle(fontSize: 12),
                               decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.date_range),
                                 border: InputBorder.none,
                               ),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    snapshot.data.taskDetail.progress[index]
+                                        .progressDescription,
+                                    style: TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.bold)),
+                                Text(
+                                  '${snapshot.data.taskDetail.progress[index].progressPercent}%',
+                                  style: TextStyle(fontSize: 18),
+                                )
+                              ],
                             ),
                           ),
                           Expanded(
@@ -199,14 +205,11 @@ class TaskListWidgetState extends State<TaskDetail> {
                             ),
                           )
                         ],
-                      ),
-                    );
-                  },
-                  itemCount: snapshot.data.taskDetail.progress.length,
-                ),
-                snapshot.data.allowUpdate
-                    ? inputProgress(snapshot.data.taskDetail.progressPercent)
-                    : Container()
+                      );
+                    },
+                    itemCount: snapshot.data.taskDetail.progress.length,
+                  ),
+                )
               ],
             );
           },
