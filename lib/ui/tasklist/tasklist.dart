@@ -98,6 +98,19 @@ class TaskListWidgetState extends State<TaskList> {
               size: 18.0,
             ));
           }
+          if (snapshot.data.state == TaskListState.failed) {
+            return Column(
+              children: [
+                Center(
+                  child: ListTile(
+                    leading: Icon(Icons.pending_actions, size: 128,),
+                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.errorMessage}\n'),
+                    subtitle: Text('Please try again later'),
+                  ),
+                )
+              ],
+            );
+          }
 
           return ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
             Future.delayed(const Duration(seconds: 0), () {

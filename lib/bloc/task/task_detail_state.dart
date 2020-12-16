@@ -7,9 +7,10 @@ import 'package:flutter/widgets.dart';
 class TaskDetailStream {
     TaskDetailState state;
     TaskDetailModel taskDetail;
+    bool allowUpdate;
     String errorMessage;
 
-    TaskDetailStream({Key key, this.state, this.taskDetail, this.errorMessage});
+    TaskDetailStream({Key key, this.state, this.taskDetail, this.errorMessage, this.allowUpdate});
 }
 
 enum TaskDetailState {

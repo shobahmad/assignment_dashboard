@@ -166,7 +166,8 @@ class TaskListWidgetState extends State<TaskDetail> {
                         );
                       },
                      itemCount: snapshot.data.taskDetail.progress.length,
-                   )
+                   ),
+                   snapshot.data.allowUpdate ? Text("Update form here") : Container()
                  ],
              );
            }

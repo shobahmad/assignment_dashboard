@@ -26,9 +26,12 @@ class TaskDetailBloc {
       return;
     }
 
+    AccountModel accountModel = _repository.getAccount();
+    List<String> pics = taskDetail.taskDetailModel.pic.split(",");
     _taskDetailStateFetcher.sink.add(TaskDetailStream(
         state: TaskDetailState.success,
-        taskDetail: taskDetail.taskDetailModel));
+        taskDetail: taskDetail.taskDetailModel,
+        allowUpdate: pics.contains(accountModel.userId)));
   }
 
   dispose() {
