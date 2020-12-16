@@ -8,5 +8,6 @@ class LoginStream {
 enum LoginState {
     loading,
     success,
+    logout,
     failed
 }

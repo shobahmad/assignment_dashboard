@@ -31,6 +31,25 @@ class LoginBloc {
     _loginStateFetcher.sink.add(LoginStream(LoginState.success, ''));
   }
 
+  postChangePassword(String password, String newPassword) async {
+    _loginStateFetcher.sink.add(LoginStream(LoginState.loading, ''));
+    LoginResponseModel loginModel = await _repository.postChangePassword(_repository.getAccount().userId, password, newPassword);
+
+    if (loginModel == null) {
+      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));
+      return;
+    }
+    if (loginModel.message != 'success') {
+      _loginStateFetcher.sink.add(LoginStream(LoginState.failed, loginModel.errorMessage));
+      return;
+    }
+
+    _loginStateFetcher.sink.add(LoginStream(LoginState.success, ''));
+  }
+  logout() async {
+    _repository.clearAccount();
+    _loginStateFetcher.sink.add(LoginStream(LoginState.logout, ''));
+  }
   dispose() {
     _loginStateFetcher.close();
   }

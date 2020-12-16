@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/bloc/profile/profile_bloc.dart';
 import 'package:assignment_dashboard/bloc/profile/profile_state.dart';
+import 'package:assignment_dashboard/ui/auth/change_password.dart';
 import 'package:assignment_dashboard/ui/auth/splash.dart';
 import 'package:assignment_dashboard/ui/tasklist/my_task.dart';
 import 'package:assignment_dashboard/ui/tasklist/search_task.dart';
@@ -90,6 +91,16 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                             Navigator.pop(context);
                             Future.delayed(const Duration(seconds: 0), () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => SearchTask()));
+                            });
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.vpn_key),
+                          title: Text("Change Password"),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Future.delayed(const Duration(seconds: 0), () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
                             });
                           },
                         ),

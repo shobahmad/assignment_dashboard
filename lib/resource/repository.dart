@@ -23,6 +23,7 @@ class Repository {
   String getToken() => _storage.getItem(FieldKey.token.value);
 
   Future<LoginResponseModel> postLogin(String username, String password) => loginApiProvider.postLogin(username, password);
+  Future<LoginResponseModel> postChangePassword(String userId, String password, String newPassword) => loginApiProvider.postChangePassword(userId, password, newPassword);
 //
   Future saveAccount(AccountModel accountModel) => _storage.setItem(FieldKey.account.value, accountModel.toJSONEncodable());
   Future clearAccount() => _storage.setItem(FieldKey.account.value, null);
@@ -31,9 +32,10 @@ class Repository {
     return accountStorage == null ? null : AccountModel.json(accountStorage);
   }
 
-  Future<RecentTaskResponseModel> getRecentTask(String userId, bool allTask) => dashboardApiProvider.getRecentTask(userId, allTask);
-  Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
+  Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();
+  Future<RecentTaskResponseModel> getRecentTask(String userId, bool allTask) => dashboardApiProvider.getRecentTask(userId, allTask);
+
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);
   Future<TaskListResponseModel> getMyTask(String month, String userId) => taskApiProvider.getTaskListByUser(month, userId);
   Future<TaskListResponseModel> getTaskByKeywords(String keyword, String userId) => taskApiProvider.getTaskListByKeywords(keyword, userId);

@@ -27,7 +27,46 @@ class LoginApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
+
+      if (response == null) {
+        return LoginResponseModel('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return LoginResponseModel.fromJson(json.decode(response.body));
+      }
+
+      LoginResponseModel responseBody = LoginResponseModel.fromJson(json.decode(response.body));
+      if (responseBody.message != null) {
+        return responseBody;
+      }
+
+      return LoginResponseModel(response.statusCode.toString() + ':Unexpected result, please try again later');
+    } catch(e, stacktrace) {
+      return LoginResponseModel('Error occurred while Communication with Server.\n${stacktrace.toString()}');
+    }
+
+  }
+
+  Future<LoginResponseModel> postChangePassword(String userId, String password, String newPassword) async {
+    Map data = {
+      'request' : {
+        'user_id': userId,
+        'password': md5.convert(utf8.encode(password)).toString(),
+        'new_password': md5.convert(utf8.encode(newPassword)).toString()
+      }
+    };
+    var body = json.encode(data);
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/changepassword",
+              headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return LoginResponseModel('Unexpected for empty result, please try again later');

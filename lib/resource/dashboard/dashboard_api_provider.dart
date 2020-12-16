@@ -32,7 +32,7 @@ class DashboardApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return RecentTaskResponseModel.error('Unexpected for empty result, please try again later');
@@ -65,7 +65,7 @@ class DashboardApiProvider {
       return TaskDashboardModel.error(
           'Error occurred while Communication with Server. ${error.toString()}\n${stackTrace.toString()}');
     });
-    App.alice.onHttpResponse(response);
+    if (App.debugHttp) App.alice.onHttpResponse(response);
 
     if (response == null) {
       return TaskDashboardModel.error(

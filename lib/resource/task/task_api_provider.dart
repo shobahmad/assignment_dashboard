@@ -33,7 +33,7 @@ class TaskApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return TaskListResponseModel.error('Unexpected for empty result, please try again later');
@@ -65,7 +65,7 @@ class TaskApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return TaskListResponseModel.error('Unexpected for empty result, please try again later');
@@ -96,7 +96,7 @@ class TaskApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return TaskListResponseModel.error('Unexpected for empty result, please try again later');
@@ -127,7 +127,7 @@ class TaskApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return TaskDetailResponseModel.error('Unexpected for empty result, please try again later');
@@ -160,7 +160,7 @@ class TaskApiProvider {
           .catchError((error, stackTrace) {
         throw error;
       });
-      App.alice.onHttpResponse(response);
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
       if (response == null) {
         return TaskDetailResponseModel.error('Unexpected for empty result, please try again later');

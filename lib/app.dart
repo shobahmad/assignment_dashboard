@@ -5,6 +5,7 @@ import 'package:assignment_dashboard/ui/auth/splash.dart';
 
 class App extends StatefulWidget {
   static Alice alice = Alice();
+  static bool debugHttp = false;
 
   @override
   State<StatefulWidget> createState() {
