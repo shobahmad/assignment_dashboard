@@ -16,5 +16,5 @@ class TaskDetailStream {
 enum TaskDetailState {
     loading,
     success,
-    failed
+    error
 }

@@ -22,7 +22,7 @@ class TaskDetailBloc {
     TaskDetailResponseModel taskDetail = await _repository.getTaskDetail(taskId);
 
     if (taskDetail.errorMessage != null) {
-      _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.failed, errorMessage: taskDetail.errorMessage));
+      _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.error, errorMessage: taskDetail.errorMessage));
       return;
     }
 
@@ -32,6 +32,19 @@ class TaskDetailBloc {
         state: TaskDetailState.success,
         taskDetail: taskDetail.taskDetailModel,
         allowUpdate: pics.contains(accountModel.userId)));
+  }
+
+  postUpdate(int taskId, String progress, String note) async {
+    _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.loading));
+
+    TaskDetailResponseModel taskDetail = await _repository.updateTaskDetail(taskId, _repository.getAccount().userId, progress, note);
+
+    if (taskDetail.message == 'error') {
+      _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.error, errorMessage: taskDetail.errorMessage));
+      return;
+    }
+
+    getTaskDetailState(taskId);
   }
 
   dispose() {
