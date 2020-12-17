@@ -11,12 +11,12 @@ class LoginApiProvider {
   final _baseUrl = "http://202.83.121.90:3000";
 
 
-  Future<LoginResponseModel> postLogin(String username, String password) async {
+  Future<LoginResponseModel> postLogin(String username, String password, String token) async {
     Map data = {
       'request' : {
         'username': username,
         'password': md5.convert(utf8.encode(password)).toString(),
-        'fcm_token': 'xxx'
+        'fcm_token': token
       }
     };
     var body = json.encode(data);

@@ -22,7 +22,7 @@ class Repository {
   saveToken(String token) => _storage.setItem(FieldKey.token.value, token);
   String getToken() => _storage.getItem(FieldKey.token.value);
 
-  Future<LoginResponseModel> postLogin(String username, String password) => loginApiProvider.postLogin(username, password);
+  Future<LoginResponseModel> postLogin(String username, String password, String token) => loginApiProvider.postLogin(username, password, token);
   Future<LoginResponseModel> postChangePassword(String userId, String password, String newPassword) => loginApiProvider.postChangePassword(userId, password, newPassword);
 //
   Future saveAccount(AccountModel accountModel) => _storage.setItem(FieldKey.account.value, accountModel.toJSONEncodable());

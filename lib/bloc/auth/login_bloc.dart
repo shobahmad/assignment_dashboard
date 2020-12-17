@@ -15,7 +15,7 @@ class LoginBloc {
 
   postLogin(var username, var password) async {
     _loginStateFetcher.sink.add(LoginStream(LoginState.loading, ''));
-    LoginResponseModel loginModel = await _repository.postLogin(username.trim(), password);
+    LoginResponseModel loginModel = await _repository.postLogin(username.trim(), password, _repository.getToken());
 
     if (loginModel == null) {
       _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 import 'package:assignment_dashboard/ui/auth/splash.dart';
 
+import 'notif/push_nofitications.dart';
+
 class App extends StatefulWidget {
   static Alice alice = Alice();
   static bool debugHttp = false;
@@ -16,6 +18,12 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   final _repository = Repository();
+
+  @override
+  void initState() {
+    PushNotificationsManager().init();
+    super.initState();
+  }
 
   @override
   void dispose() {

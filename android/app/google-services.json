@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "173810089504",
+    "project_id": "assignment-dashboard-bi",
+    "storage_bucket": "assignment-dashboard-bi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173810089504:android:18f1a309c31eda04e88645",
+        "android_client_info": {
+          "package_name": "id.bigmind.dashboard.monitoring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173810089504-frig9bog9dgegou2h4132anivjddnror.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.bigmind.dashboard.monitoring",
+            "certificate_hash": "e7a9740808334f98eb067b590588c93740555b7e"
+          }
+        },
+        {
+          "client_id": "173810089504-12d1h4sfu2v9t4pi4gfsebalf8dgnfth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHUTskzcr_IHzTOK25SMn779Sw5rCVjmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173810089504-12d1h4sfu2v9t4pi4gfsebalf8dgnfth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

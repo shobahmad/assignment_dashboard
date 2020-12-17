@@ -57,50 +57,53 @@ class DashboardApiProvider {
       }
     };
     var body = json.encode(data);
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/tasks",
+              headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      if (App.debugHttp) App.alice.onHttpResponse(response);
 
-    final response = await client
-        .post("$_baseUrl/dashboardtm/tasks",
-            headers: {"Content-Type": "application/json"}, body: body)
-        .catchError((error, stackTrace) {
-      return TaskDashboardModel.error(
-          'Error occurred while Communication with Server. ${error.toString()}\n${stackTrace.toString()}');
-    });
-    if (App.debugHttp) App.alice.onHttpResponse(response);
-
-    if (response == null) {
-      return TaskDashboardModel.error(
-          'Unexpected for empty result, please try again later');
-    }
-
-    var decodedData = json.decode(response.body)['data'];
-    if (decodedData is String) {
-      return TaskDashboardModel.error(decodedData);
-    }
-
-    double qtyBehindSchedule = 0;
-    double qtyOnProgress = 0;
-    double qtyDone = 0;
-
-    if (response.statusCode != 200) {
-      return TaskDashboardModel.error("Unexpected (" +
-          response.statusCode.toString() +
-          ") for empty result, please try again later");
-    }
-
-    for (var i = 0; i < decodedData.length; i++) {
-      TaskSummaryModel taskSummaryModel = TaskSummaryModel.json(decodedData[i]);
-      if (taskSummaryModel.status == Status.behind_schedule) {
-        qtyBehindSchedule += taskSummaryModel.jumlah;
+      if (response == null) {
+        return TaskDashboardModel.error(
+            'Unexpected for empty result, please try again later');
       }
-      if (taskSummaryModel.status == Status.on_progress) {
-        qtyOnProgress += taskSummaryModel.jumlah;
-      }
-      if (taskSummaryModel.status == Status.finish) {
-        qtyDone += taskSummaryModel.jumlah;
-      }
-    }
 
-    return TaskDashboardModel(qtyBehindSchedule, qtyOnProgress, qtyDone);
+      var decodedData = json.decode(response.body)['data'];
+      if (decodedData is String) {
+        return TaskDashboardModel.error(decodedData);
+      }
+
+      double qtyBehindSchedule = 0;
+      double qtyOnProgress = 0;
+      double qtyDone = 0;
+
+      if (response.statusCode != 200) {
+        return TaskDashboardModel.error("Unexpected (" +
+            response.statusCode.toString() +
+            ") for empty result, please try again later");
+      }
+
+      for (var i = 0; i < decodedData.length; i++) {
+        TaskSummaryModel taskSummaryModel =
+            TaskSummaryModel.json(decodedData[i]);
+        if (taskSummaryModel.status == Status.behind_schedule) {
+          qtyBehindSchedule += taskSummaryModel.jumlah;
+        }
+        if (taskSummaryModel.status == Status.on_progress) {
+          qtyOnProgress += taskSummaryModel.jumlah;
+        }
+        if (taskSummaryModel.status == Status.finish) {
+          qtyDone += taskSummaryModel.jumlah;
+        }
+      }
+
+      return TaskDashboardModel(qtyBehindSchedule, qtyOnProgress, qtyDone);
+    } catch(e, stacktrace) {
+      return TaskDashboardModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
+    }
   }
 
   Future<List<DivisionModel>> getDivisionList() async {
