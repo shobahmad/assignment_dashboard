@@ -17,7 +17,7 @@ class ProgressChartState extends State<ProgressChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.5,
+      aspectRatio: 0.5,
       child: PieChart(
         PieChartData(
             pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
@@ -60,7 +60,7 @@ class ProgressChartState extends State<ProgressChart> {
           return PieChartSectionData(
             color: const Color(0xFFCFD8DC),
             value: 100 - widget.percentage,
-            title: (100 - widget.percentage).toInt().toString() + '%',
+            title: widget.percentage.toInt() == 100 ? '' : (100 - widget.percentage).toInt().toString() + '%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xFFCFD8DC)),

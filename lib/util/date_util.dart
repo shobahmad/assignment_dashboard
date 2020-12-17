@@ -24,8 +24,7 @@ class DateUtil {
     if (dateParam == null) {
       return "-";
     }
-    return '${DateFormat.yMMMd().format(dateParam)}\n'
-           '${DateFormat.Hms().format(dateParam)}';
+    return '${DateFormat.yMMMd().add_Hms().format(dateParam)}';
   }
   static String formatToMMMMy(DateTime dateParam) {
     if (dateParam == null) {

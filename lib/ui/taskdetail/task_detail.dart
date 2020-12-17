@@ -62,63 +62,68 @@ class TaskListWidgetState extends State<TaskDetail> {
              return Column(
                crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  leading: ProgressChart(
-                      percentage:
-                          snapshot.data.taskDetail.progressPercent.toDouble()),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateStart)),
-                              readOnly: true,
-                              style: TextStyle(fontSize: 12),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: 'Start Date'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: ProgressChart(
+                        percentage:
+                        snapshot.data.taskDetail.progressPercent.toDouble()),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: TextEditingController(
+                                    text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateStart)),
+                                readOnly: true,
+                                style: TextStyle(fontSize: 12),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    labelText: 'Start Date'),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateTarget)),
-                              readOnly: true,
-                              style: TextStyle(fontSize: 12),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: 'Target Date'),
+                            separator(),
+                            Expanded(
+                              child: TextField(
+                                controller: TextEditingController(
+                                    text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateTarget)),
+                                readOnly: true,
+                                style: TextStyle(fontSize: 12),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    labelText: 'Target Date'),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: TextEditingController(
-                                  text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateFinish)),
-                              readOnly: true,
-                              style: TextStyle(fontSize: 12),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  labelText: 'Finish Date'),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  title: TextField(
-                    controller: TextEditingController(
-                        text: snapshot.data.taskDetail.pic),
-                    readOnly: true,
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 12),
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person_pin),
-                        border: InputBorder.none,
-                        labelText: 'PIC'),
+                            separator(),
+                            Expanded(
+                              child: TextField(
+                                controller: TextEditingController(
+                                    text: DateUtil.formatToyMMMd(snapshot.data.taskDetail.dateFinish)),
+                                readOnly: true,
+                                style: TextStyle(fontSize: 12),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    labelText: 'Finish Date'),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    title: TextField(
+                      controller: TextEditingController(
+                          text: snapshot.data.taskDetail.pic),
+                      readOnly: true,
+                      maxLines: 2,
+                      style: TextStyle(fontSize: 12),
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person_pin),
+                          border: InputBorder.none,
+                          labelText: 'PIC'),
+                    ),
                   ),
                 ),
                 ListTile(
@@ -161,28 +166,20 @@ class TaskListWidgetState extends State<TaskDetail> {
                         children: [
                           SizedBox(width: 16,),
                           Expanded(
-                            child: TextField(
-                              controller: TextEditingController(
-                                  text: DateUtil.formatToyMdHms(snapshot.data
-                                      .taskDetail.progress[index].datetime)),
-                              readOnly: true,
-                              maxLines: 2,
-                              style: TextStyle(fontSize: 12),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 200,
+//                            width: 200,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text(DateUtil.formatToyMdHms(snapshot.data
+                                    .taskDetail.progress[index].datetime), style: TextStyle(
+                                    fontSize: 10)),
+                                SizedBox(height: 6,),
                                 Text(
                                     snapshot.data.taskDetail.progress[index]
                                         .progressDescription,
                                     style: TextStyle(
                                         fontSize: 14, fontWeight: FontWeight.bold)),
+                                SizedBox(height: 2,),
                                 Text(
                                   '${snapshot.data.taskDetail.progress[index].progressPercent}%',
                                   style: TextStyle(fontSize: 18),
@@ -217,6 +214,22 @@ class TaskListWidgetState extends State<TaskDetail> {
      );
   }
 
+  Widget separator() {
+    return Row(
+      children: [
+        SizedBox(width: 4,),
+        SizedBox(
+          width: 1,
+          height: 25,
+          child: Container(
+            decoration: BoxDecoration(color: Colors.grey),
+          ),
+        ),
+        SizedBox(width: 8,)
+      ],
+    );
+  }
+
   Widget inputProgress(int progress) {
     TextEditingController textProgressController = new TextEditingController(text:progress.toString());
     TextEditingController textNotesController = new TextEditingController();
@@ -238,7 +251,6 @@ class TaskListWidgetState extends State<TaskDetail> {
               Container(
                 width: 100,
                 child: TextField(
-                  maxLength: 3,
                   controller: textProgressController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -253,7 +265,6 @@ class TaskListWidgetState extends State<TaskDetail> {
               SizedBox(width: 6,),
               Expanded(child:
               TextField(
-                maxLength: 255,
                 controller: textNotesController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(

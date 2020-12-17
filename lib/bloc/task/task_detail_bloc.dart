@@ -31,7 +31,7 @@ class TaskDetailBloc {
     _taskDetailStateFetcher.sink.add(TaskDetailStream(
         state: TaskDetailState.success,
         taskDetail: taskDetail.taskDetailModel,
-        allowUpdate: pics.contains(accountModel.userId)));
+        allowUpdate: pics.contains(accountModel.userId) && taskDetail.taskDetailModel.progressPercent < 100));
   }
 
   postUpdate(int taskId, String progress, String note) async {

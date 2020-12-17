@@ -47,29 +47,31 @@ class _ListItemTaskState extends State<ListItemTask> {
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateStart)),
                           readOnly: true,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelText: 'Start Date'),
                         ),
                       ),
+                      separator(),
                       Expanded(
                         child: TextField(
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateTarget)),
                           readOnly: true,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelText: 'Target Date'),
                         ),
                       ),
+                      separator(),
                       Expanded(
                         child: TextField(
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateFinish)),
                           readOnly: true,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               labelText: 'Finish Date'),
@@ -80,6 +82,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                   Text(widget.listTask[index].taskName,
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8,),
                   Text(widget.listTask[index].taskDescription,
                       style: TextStyle(
                           fontSize: 14, fontStyle: FontStyle.italic)),
@@ -124,6 +127,22 @@ class _ListItemTaskState extends State<ListItemTask> {
         );
       },
       itemCount: widget.listTask == null ? 0 : widget.listTask.length,
+    );
+  }
+
+  Widget separator() {
+    return Row(
+      children: [
+        SizedBox(width: 4,),
+        SizedBox(
+          width: 1,
+          height: 25,
+          child: Container(
+            decoration: BoxDecoration(color: Colors.grey),
+          ),
+        ),
+        SizedBox(width: 8,)
+      ],
     );
   }
 }

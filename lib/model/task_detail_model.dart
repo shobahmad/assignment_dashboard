@@ -28,7 +28,7 @@ class TaskDetailModel {
       TaskProgressModel progressModel = TaskProgressModel.json(m['progress'][i]);
       progress.add(progressModel);
 
-      if (i == m['progress'].length - 1) {
+      if (i == 0) {
         progressPercent = progressModel.progressPercent;
       }
     }

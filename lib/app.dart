@@ -7,7 +7,7 @@ import 'notif/push_nofitications.dart';
 
 class App extends StatefulWidget {
   static Alice alice = Alice();
-  static bool debugHttp = false;
+  static bool debugHttp = true;
 
   @override
   State<StatefulWidget> createState() {
