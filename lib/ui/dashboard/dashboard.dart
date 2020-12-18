@@ -69,7 +69,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 SizedBox(
                   height: 2,
                 ),
-                recentTask([]),
+                recentTask(snapshot.data.recentTaskModel.listRecentTask),
                 SizedBox(
                   height: 24,
                 ),
@@ -210,7 +210,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                       border: InputBorder.none,
                       labelText:
                       DateUtil.formatToyMMMd(recentTaskModel[index].datetime),
-                      helperText: 'by ${recentTaskModel[index].usedId}',
                       prefixIcon: Icon(Icons.assignment, color: Colors.green,)
                   )),
             );

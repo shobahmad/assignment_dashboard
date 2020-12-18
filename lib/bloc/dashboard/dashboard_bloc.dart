@@ -44,7 +44,7 @@ class DashboardBloc {
     }
 
     if (taskDashboard.isEmpty()) {
-      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time, listDivisionModel: listSortedDivisions));
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time, recentTaskModel: await _repository.getRecentTask(accountModel.userId, false), listDivisionModel: listSortedDivisions));
       return;
     }
 

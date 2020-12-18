@@ -58,7 +58,6 @@ class TaskListWidgetState extends State<RecentTask> {
                         border: InputBorder.none,
                         labelText:
                         DateUtil.formatToyMMMd(snapshot.data.taskList[index].datetime),
-                        helperText: 'by ${snapshot.data.taskList[index].usedId}',
                         prefixIcon: Icon(Icons.assignment, color: Colors.green,)
                     )),
               );
