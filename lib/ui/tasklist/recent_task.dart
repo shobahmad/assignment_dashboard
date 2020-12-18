@@ -18,7 +18,7 @@ class TaskListWidgetState extends State<RecentTask> {
   void initState() {
     super.initState();
     bloc = RecentTaskBloc();
-    bloc.getRecentTaskState();
+    _getData();
   }
   
   @override
@@ -40,33 +40,40 @@ class TaskListWidgetState extends State<RecentTask> {
             ));
           }
 
-          return ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder: (context, index) {
-              return Divider(
-                color: Colors.grey,
-              );
-            },
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                    controller: TextEditingController(
-                        text: snapshot.data.taskList[index].description),
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText:
-                        DateUtil.formatToyMMMd(snapshot.data.taskList[index].datetime),
-                        prefixIcon: Icon(Icons.assignment, color: Colors.green,)
-                    )),
-              );
-            },
-            itemCount: snapshot.data.taskList.length,
+          return RefreshIndicator(
+            onRefresh: _getData,
+            child: ListView.separated(
+              shrinkWrap: true,
+              separatorBuilder: (context, index) {
+                return Divider(
+                  color: Colors.grey,
+                );
+              },
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                      controller: TextEditingController(
+                          text: snapshot.data.taskList[index].description),
+                      readOnly: true,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText:
+                          DateUtil.formatToyMdHm(snapshot.data.taskList[index].datetime),
+                          prefixIcon: Icon(Icons.assignment, color: Colors.green,)
+                      )),
+                );
+              },
+              itemCount: snapshot.data.taskList.length,
+            ),
           );
         },
       ),
     );
+  }
+
+  Future<void> _getData() async {
+    bloc.getRecentTaskState();
   }
 
 }

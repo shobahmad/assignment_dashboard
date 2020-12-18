@@ -20,11 +20,11 @@ class DateUtil {
     }
     return DateFormat.yMMMd().format(dateParam);
   }
-  static String formatToyMdHms(DateTime dateParam) {
+  static String formatToyMdHm(DateTime dateParam) {
     if (dateParam == null) {
       return "-";
     }
-    return '${DateFormat.yMMMd().add_Hms().format(dateParam)}';
+    return '${DateFormat.yMMMd().add_Hm().format(dateParam)}';
   }
   static String formatToMMMMy(DateTime dateParam) {
     if (dateParam == null) {

@@ -227,7 +227,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         labelText:
-                        DateUtil.formatToyMMMd(recentTaskModel[index].datetime),
+                        DateUtil.formatToyMdHm(recentTaskModel[index].datetime),
                         prefixIcon: Icon(Icons.assignment, color: Colors.green,)
                     )),
               );

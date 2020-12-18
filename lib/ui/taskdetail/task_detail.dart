@@ -170,7 +170,7 @@ class TaskListWidgetState extends State<TaskDetail> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(DateUtil.formatToyMdHms(snapshot.data
+                                Text(DateUtil.formatToyMdHm(snapshot.data
                                     .taskDetail.progress[index].datetime), style: TextStyle(
                                     fontSize: 10)),
                                 SizedBox(height: 6,),
