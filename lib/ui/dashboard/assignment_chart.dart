@@ -1,5 +1,6 @@
 import 'package:assignment_dashboard/ui/tasklist/tasklist.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 
@@ -28,17 +29,20 @@ class AssignmentChartState extends State<AssignmentChart> {
       child: PieChart(
         PieChartData(
             pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-              if (pieTouchResponse.touchedSectionIndex != null) {
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TaskList(
-                                selectedDate: widget.selectedDate,
-                                divisionId: widget.divisionId,
-                                status: pieTouchResponse.touchedSectionIndex,
-                                divisionDescription: widget.divisionDescription,
-                              )));
+              int touchedSectionIndex = getSelectionIndex(pieTouchResponse.touchedSectionIndex);
+              if (touchedSectionIndex != null) {
+                EasyDebounce.debounce('debouncer1', Duration(milliseconds: 500), () => {
+                  Future.delayed(const Duration(milliseconds: 0), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TaskList(
+                              selectedDate: widget.selectedDate,
+                              divisionId: widget.divisionId,
+                              status: touchedSectionIndex,
+                              divisionDescription: widget.divisionDescription,
+                            )));
+                  })
                 });
               }
 
@@ -46,7 +50,7 @@ class AssignmentChartState extends State<AssignmentChart> {
                 if (pieTouchResponse.touchInput is FlPanEnd) {
                   touchedIndex = -1;
                 } else {
-                  touchedIndex = pieTouchResponse.touchedSectionIndex;
+                  touchedIndex = touchedSectionIndex;
                 }
               });
             }),
@@ -58,6 +62,23 @@ class AssignmentChartState extends State<AssignmentChart> {
             sections: showingSections()),
       ),
     );
+  }
+
+  int getSelectionIndex(int selectionIndex) {
+    if (selectionIndex != null) {
+      return selectionIndex;
+    }
+    if (widget.qtyBehindSchedule != 0 && widget.qtyDone == 0 && widget.qtyOnProgress == 0) {
+      return 2;
+    }
+    if (widget.qtyDone != 0 && widget.qtyBehindSchedule == 0 && widget.qtyOnProgress == 0) {
+      return 1;
+    }
+    if (widget.qtyOnProgress != 0 && widget.qtyBehindSchedule == 0 && widget.qtyDone == 0) {
+      return 0;
+    }
+
+    return null;
   }
 
   List<PieChartSectionData> showingSections() {

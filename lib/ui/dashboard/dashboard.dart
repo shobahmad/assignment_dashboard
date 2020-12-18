@@ -187,9 +187,9 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8,),
-        Text('    Recent updates', style: TextStyle(color: Colors.green, fontSize: 16),),
         SizedBox(height: 2,),
+        Text('    Recent updates', style: TextStyle(color: Colors.green, fontSize: 16),),
+        SizedBox(height: 1,),
         Card(
             color: Colors.white,
             child: recentTaskList(recentTaskModel))
@@ -218,19 +218,18 @@ class DashboardScreenState extends State<DashboardScreen> {
               );
             },
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                    controller: TextEditingController(
-                        text: recentTaskModel[index].description),
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText:
-                        DateUtil.formatToyMdHm(recentTaskModel[index].datetime),
-                        prefixIcon: Icon(Icons.assignment, color: Colors.green,)
-                    )),
-              );
+              return Expanded(child: TextField(
+                style: TextStyle(fontSize: 12),
+                  controller: TextEditingController(
+                      text: recentTaskModel[index].description,),
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(fontSize: 10),
+                      border: InputBorder.none,
+                      labelText:
+                      DateUtil.formatToyMdHm(recentTaskModel[index].datetime),
+                      prefixIcon: Icon(Icons.assignment, color: Colors.green,),
+                  )),);
             },
             itemCount: recentTaskModel.length,
           ),
