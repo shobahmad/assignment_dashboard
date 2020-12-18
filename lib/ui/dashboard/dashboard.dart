@@ -79,6 +79,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(
                     height: 24,
                   ),
+                  Text('    Team Performance', style: TextStyle(color: Colors.green, fontSize: 16),),
+                  SizedBox(height: 1,),
                   Center(
                     child: ListTile(
                         leading: Icon(Icons.pending_actions, size: 128,),
@@ -112,6 +114,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(
                     height: 24,
                   ),
+                  Text('    Team Performance', style: TextStyle(color: Colors.green, fontSize: 16),),
+                  SizedBox(height: 1,),
                   Center(
                     child: ListTile(
                       leading: Icon(Icons.pending_actions, size: 128,),
@@ -145,8 +149,10 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ),
                   recentTask(snapshot.data.recentTaskModel.listRecentTask),
                   SizedBox(
-                    height: 2,
+                    height: 8,
                   ),
+                  Text('    Team Performance', style: TextStyle(color: Colors.green, fontSize: 16),),
+                  SizedBox(height: 1,),
                   AssignmentChart(
                     qtyBehindSchedule:
                     snapshot.data.taskDashboardModel.qtyBehindSchedule,
