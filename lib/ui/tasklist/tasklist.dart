@@ -28,7 +28,7 @@ class TaskListWidgetState extends State<TaskList> {
   void initState() {
     super.initState();
     bloc = TaskListBloc();
-    bloc.getTaskListState(widget.selectedDate.month.toString(), widget.divisionId, widget.status.toString());
+    _getData();
   }
   
   @override
@@ -99,32 +99,42 @@ class TaskListWidgetState extends State<TaskList> {
             ));
           }
           if (snapshot.data.state == TaskListState.failed) {
-            return Column(
-              children: [
-                Center(
-                  child: ListTile(
-                    leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.errorMessage}\n'),
-                    subtitle: Text('Please try again later'),
-                  ),
-                )
-              ],
+            return RefreshIndicator(
+              onRefresh: _getData,
+              child: ListView(
+                children: [
+                  Center(
+                    child: ListTile(
+                      leading: Icon(Icons.pending_actions, size: 128,),
+                      title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.errorMessage}\n'),
+                      subtitle: Text('Please try again later'),
+                    ),
+                  )
+                ],
+              ),
             );
           }
 
-          return ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
+          return RefreshIndicator(
+            onRefresh: _getData,
+            child: ListItemTask(listTask: snapshot.data.taskList, onItemClick: (value) {
             Future.delayed(const Duration(seconds: 0), () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => TaskDetail(
-                        taskId: value.taskId, taskName: value.taskName
+                          taskId: value.taskId, taskName: value.taskName
                       )));
             });
-          },);
+          },),);
         },
       ),
     );
   }
+
+  Future<void> _getData() async {
+    bloc.getTaskListState(widget.selectedDate.month.toString(), widget.divisionId, widget.status.toString());
+  }
+
 
 }

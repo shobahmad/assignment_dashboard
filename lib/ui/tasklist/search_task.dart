@@ -2,8 +2,6 @@ import 'package:assignment_dashboard/bloc/task/searchtask_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
 import 'package:assignment_dashboard/ui/common/list_item_task.dart';
 import 'package:assignment_dashboard/ui/taskdetail/task_detail.dart';
-import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
-import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
