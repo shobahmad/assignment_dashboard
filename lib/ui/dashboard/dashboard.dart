@@ -91,33 +91,36 @@ class DashboardScreenState extends State<DashboardScreen> {
           }
 
           if (snapshot.data.state == DashboardState.failed) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-                    ),
-                    Expanded(
-                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                recentTask([]),
-                SizedBox(
-                  height: 24,
-                ),
-                Center(
-                  child: ListTile(
-                    leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.taskDashboardModel.errorMessage}\n'),
-                    subtitle: Text('Please try again with another parameters'),
+            return RefreshIndicator(
+              onRefresh: _getData,
+              child: ListView(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                      ),
+                      Expanded(
+                        child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                      )
+                    ],
                   ),
-                )
-              ],
+                  SizedBox(
+                    height: 2,
+                  ),
+                  recentTask([]),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Center(
+                    child: ListTile(
+                      leading: Icon(Icons.pending_actions, size: 128,),
+                      title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.taskDashboardModel.errorMessage}\n'),
+                      subtitle: Text('Please try again with another parameters'),
+                    ),
+                  )
+                ],
+              ),
             );
           }
 
