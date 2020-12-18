@@ -27,4 +27,12 @@ class PushNotificationsManager {
       _initialized = true;
     }
   }
+  Future<void> resetToken() async {
+    await _firebaseMessaging.deleteInstanceID();
+    var repository = Repository();
+    String token = await _firebaseMessaging.getToken();
+    print("FirebaseMessaging token: $token");
+    repository.saveToken(token);
+  }
+
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:assignment_dashboard/bloc/profile/profile_state.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
+import 'package:assignment_dashboard/notif/push_nofitications.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
 
@@ -26,7 +27,9 @@ class ProfileBloc {
   }
 
   logout() async {
+    _profileStateFetcher.sink.add(ProfileStream(state: ProfileState.loading));
     _repository.clearAccount();
+    await PushNotificationsManager().resetToken();
     _profileStateFetcher.sink.add(ProfileStream(
         state: ProfileState.logout,
         accountModel: null));
