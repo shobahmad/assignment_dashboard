@@ -18,11 +18,12 @@ class MyTask extends StatefulWidget {
 
 class TaskListWidgetState extends State<MyTask> {
   MyTaskBloc bloc;
+  DateTime selectedDate;
   @override
   void initState() {
     super.initState();
     bloc = MyTaskBloc();
-    bloc.getTaskListState(DateTime.now());
+    _getData();
   }
 
   @override
@@ -50,64 +51,83 @@ class TaskListWidgetState extends State<MyTask> {
     }
 
     if (snapshot.data.state == TaskListState.empty) {
-      return Column(
-        children: [
-          parameter(snapshot),
-          SizedBox(
-            height: 24,
-          ),
-          Center(
-            child: ListTile(
-              leading: Icon(Icons.pending_actions, size: 128,),
-              title: Text('\n\No data available')
+      return RefreshIndicator(
+        onRefresh: _getData,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            parameter(snapshot),
+            SizedBox(
+              height: 24,
             ),
-          )
-        ],
+            Center(
+              child: ListTile(
+                  leading: Icon(Icons.pending_actions, size: 128,),
+                  title: Text('\n\No data available')
+              ),
+            )
+          ],
+        ),
       );
     }
 
     if (snapshot.data.state == TaskListState.failed) {
-      return Column(
-        children: [
-          parameter(snapshot),
-          SizedBox(
-            height: 24,
-          ),
-          Center(
-            child: ListTile(
-              leading: Icon(Icons.pending_actions, size: 128,),
-              title: Text('\nUnfortunatelly, something went wrong!\n${snapshot.data.errorMessage}\n'),
-              subtitle: Text('Please try again with another parameters'),
-            ),
-          )
-        ],
-      );
+      return RefreshIndicator(
+          onRefresh: _getData,
+          child: ListView(
+            children: [
+              parameter(snapshot),
+              SizedBox(
+                height: 24,
+              ),
+              Center(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.pending_actions,
+                    size: 128,
+                  ),
+                  title: Text(
+                      '\nUnfortunatelly, something went wrong!\n${snapshot.data.errorMessage}\n'),
+                  subtitle: Text('Please try again with another parameters'),
+                ),
+              )
+            ],
+          ));
     }
 
-    return Column(
-      children: [
-        parameter(snapshot),
-        SizedBox(
-          height: 2,
-        ),
-        Expanded(
-          child: ListItemTask(
-            listTask: snapshot.data.taskList,
-            onItemClick: (value) {
-              Future.delayed(const Duration(seconds: 0), () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TaskDetail(
-                              taskId: value.taskId,
-                              taskName: value.taskName,
-                            )));
-              });
-            },
-          ),
-        )
-      ],
-    );
+    return RefreshIndicator(
+        onRefresh: _getData,
+        child: ListView(
+          children: [
+            parameter(snapshot),
+            SizedBox(
+              height: 2,
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _getData,
+                child: ListItemTask(
+                  listTask: snapshot.data.taskList,
+                  onItemClick: (value) {
+                    Future.delayed(const Duration(seconds: 0), () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TaskDetail(
+                                taskId: value.taskId,
+                                taskName: value.taskName,
+                              )));
+                    });
+                  },
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Future<void> _getData() async {
+    bloc.getTaskListState(selectedDate == null ? DateTime.now() : selectedDate);
   }
 
   Widget parameter(AsyncSnapshot<TaskListStream> snapshot) {
@@ -121,8 +141,8 @@ class TaskListWidgetState extends State<MyTask> {
           if (param.selectedDate == null) {
             return;
           }
-
-          bloc.getTaskListState(param.selectedDate);
+          this.selectedDate = param.selectedDate;
+          _getData();
         });
   }
 }
