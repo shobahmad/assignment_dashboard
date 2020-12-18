@@ -21,12 +21,15 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
+  DateTime selectedDate;
+  DivisionModel selectedDivision;
+
   DashboardBloc dashboardBloc;
   @override
   void initState() {
     super.initState();
     dashboardBloc = DashboardBloc();
-    dashboardBloc.getDashboardState(DateTime.now(), null);
+    _getData();
   }
 
   @override
@@ -54,32 +57,36 @@ class DashboardScreenState extends State<DashboardScreen> {
           }
 
           if (snapshot.data.state == DashboardState.empty) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-                    ),
-                    Expanded(
-                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                recentTask(snapshot.data.recentTaskModel.listRecentTask),
-                SizedBox(
-                  height: 24,
-                ),
-                Center(
-                  child: ListTile(
-                    leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\n\nNo data available')
+            return RefreshIndicator(
+              onRefresh: _getData,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                      ),
+                      Expanded(
+                        child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                      )
+                    ],
                   ),
-                )
-              ],
+                  SizedBox(
+                    height: 2,
+                  ),
+                  recentTask(snapshot.data.recentTaskModel.listRecentTask),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Center(
+                    child: ListTile(
+                        leading: Icon(Icons.pending_actions, size: 128,),
+                        title: Text('\n\nNo data available')
+                    ),
+                  )
+                ],
+              ),
             );
           }
 
@@ -113,39 +120,43 @@ class DashboardScreenState extends State<DashboardScreen> {
               ],
             );
           }
+
           if (snapshot.data.state == DashboardState.success) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
-                    ),
-                    Expanded(
-                      child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                recentTask(snapshot.data.recentTaskModel.listRecentTask),
-                SizedBox(
-                  height: 2,
-                ),
-                AssignmentChart(
+            return RefreshIndicator(
+              onRefresh: _getData,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel == null ? null : snapshot.data.listDivisionModel.first),
+                      ),
+                      Expanded(
+                        child: division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  recentTask(snapshot.data.recentTaskModel.listRecentTask),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  AssignmentChart(
                     qtyBehindSchedule:
-                        snapshot.data.taskDashboardModel.qtyBehindSchedule,
+                    snapshot.data.taskDashboardModel.qtyBehindSchedule,
                     qtyDone: snapshot.data.taskDashboardModel.qtyDone,
                     qtyOnProgress:
-                        snapshot.data.taskDashboardModel.qtyOnProgress,
+                    snapshot.data.taskDashboardModel.qtyOnProgress,
                     selectedDate: snapshot.data.selectedDate,
                     divisionId:
-                        snapshot.data.listDivisionModel.first.divisionId,
-                  divisionDescription: snapshot.data.listDivisionModel.first.divisionDesc,
-                )
-              ],
+                    snapshot.data.listDivisionModel.first.divisionId,
+                    divisionDescription: snapshot.data.listDivisionModel.first.divisionDesc,
+                  )
+                ],
+              ),
             );
           }
 
@@ -155,6 +166,10 @@ class DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Future<void> _getData() async {
+    dashboardBloc.getDashboardState(selectedDate == null ? DateTime.now() : selectedDate, selectedDivision);
+  }
+
   Widget monthPicker(DateTime selectedDate, DivisionModel divisionModel) {
     return FieldMonthPicker(
         param: MonthPickerParam(selectedDate, divisionModel),
@@ -162,8 +177,9 @@ class DashboardScreenState extends State<DashboardScreen> {
           if (param.selectedDate == null) {
             return;
           }
-          dashboardBloc.getDashboardState(
-              param.selectedDate, param.divisionModel);
+          this.selectedDate = param.selectedDate;
+          this.selectedDivision = param.divisionModel;
+          _getData();
         });
   }
 
@@ -192,29 +208,32 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     return Column(
       children: [
-        ListView.separated(
-          shrinkWrap: true,
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.grey,
-            );
-          },
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                  controller: TextEditingController(
-                      text: recentTaskModel[index].description),
-                  readOnly: true,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText:
-                      DateUtil.formatToyMMMd(recentTaskModel[index].datetime),
-                      prefixIcon: Icon(Icons.assignment, color: Colors.green,)
-                  )),
-            );
-          },
-          itemCount: recentTaskModel.length,
+        RefreshIndicator(
+          onRefresh: _getData,
+          child: ListView.separated(
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Colors.grey,
+              );
+            },
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                    controller: TextEditingController(
+                        text: recentTaskModel[index].description),
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText:
+                        DateUtil.formatToyMMMd(recentTaskModel[index].datetime),
+                        prefixIcon: Icon(Icons.assignment, color: Colors.green,)
+                    )),
+              );
+            },
+            itemCount: recentTaskModel.length,
+          ),
         ),
         SizedBox(height: 0.3, child: Container(decoration: BoxDecoration(color: Colors.grey),),),
         ListTile(
@@ -234,7 +253,9 @@ class DashboardScreenState extends State<DashboardScreen> {
         color: Colors.white,
         child: ListTile(
             title: DivisionPicker(listDivisions: listDivisions, onChange: (selectedDivision) {
-              dashboardBloc.getDashboardState(selectedDate, selectedDivision);
+              this.selectedDate = selectedDate;
+              this.selectedDivision = selectedDivision;
+              _getData();
             },),
             leading: Icon(Icons.group, color: Colors.blue,),
             trailing: Icon(Icons.chevron_right)

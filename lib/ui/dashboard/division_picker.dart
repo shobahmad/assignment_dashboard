@@ -45,7 +45,7 @@ class _DivisionPickerState extends State<DivisionPicker> {
       },
       items: widget.listDivisions
           .map((value) => DropdownMenuItem<DivisionModel>(
-              value: value, child: Text(value.divisionDesc, style: TextStyle(fontSize: 12),)))
+              value: value, child: Text(value.divisionId, style: TextStyle(fontSize: 12),)))
           .toList(),
     );
   }
