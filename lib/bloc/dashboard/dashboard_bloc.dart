@@ -44,7 +44,7 @@ class DashboardBloc {
     }
 
     if (taskDashboard.isEmpty()) {
-      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time,));
+      _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.empty, selectedDate: time, listDivisionModel: listSortedDivisions));
       return;
     }
 

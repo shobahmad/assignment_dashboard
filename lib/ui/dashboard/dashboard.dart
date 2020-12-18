@@ -76,8 +76,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 Center(
                   child: ListTile(
                     leading: Icon(Icons.pending_actions, size: 128,),
-                    title: Text('\n\nThere is no assigmment for selected parameters!'),
-                    subtitle: Text('Please choose another parameters'),
+                    title: Text('\n\nNo data available')
                   ),
                 )
               ],
@@ -118,11 +117,6 @@ class DashboardScreenState extends State<DashboardScreen> {
             return ListView(
               shrinkWrap: true,
               children: [
-//                monthPicker(snapshot.data.selectedDate, snapshot.data.listDivisionModel.first),
-//                SizedBox(
-//                  height: 2,
-//                ),
-//                division(snapshot.data.listDivisionModel, snapshot.data.selectedDate),
                 Row(
                   children: [
                     Expanded(

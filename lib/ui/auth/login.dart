@@ -154,22 +154,8 @@ class LoginFormState extends State<LoginForm> {
                 controller: textPasswordController,
                 enabled: !widget.loading,
                 helperText:
-                'Password no more than 16',
+                'Password no more than 20',
                 labelText: 'Password',
-              ),
-              SizedBox(height: 12),
-              InkWell(
-                child: Text(
-                  'Forgot Password',
-                  textAlign: TextAlign.end,
-                  style: inkWellStyle,
-                ),
-                onTap: () => {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(
-                      content: Text(
-                          'Forgot Password')))
-                },
               ),
               sizedBoxSpace,
               RaisedButton(
@@ -186,7 +172,7 @@ class LoginFormState extends State<LoginForm> {
                   width: 277,
                   child: Padding(
                     padding: const EdgeInsets
-                        .symmetric(vertical: 16),
+                        .symmetric(vertical: 20),
                     child: Center(
                       child: widget.loading ? SpinKitThreeBounce(
                         color: Colors.white,

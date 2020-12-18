@@ -46,7 +46,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                         child: TextField(
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateStart)),
-                          readOnly: true,
+                          enabled: false,
                           style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -58,7 +58,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                         child: TextField(
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateTarget)),
-                          readOnly: true,
+                          enabled: false,
                           style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -70,7 +70,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                         child: TextField(
                           controller: TextEditingController(
                               text: DateUtil.formatToyMMMd(widget.listTask[index].dateFinish)),
-                          readOnly: true,
+                          enabled: false,
                           style: TextStyle(fontSize: 10),
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -94,7 +94,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                           controller: TextEditingController(
                               text:
                               widget.listTask[index].division),
-                          readOnly: true,
+                          enabled: false,
                           maxLines: 2,
                           style: TextStyle(fontSize: 12),
                           decoration: InputDecoration(
@@ -106,7 +106,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                         child: TextField(
                           controller: TextEditingController(
                               text: widget.listTask[index].pic),
-                          readOnly: true,
+                          enabled: false,
                           maxLines: 2,
                           style: TextStyle(fontSize: 12),
                           decoration: InputDecoration(

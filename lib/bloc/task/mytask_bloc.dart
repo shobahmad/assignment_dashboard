@@ -17,18 +17,19 @@ class MyTaskBloc {
 
     TaskListResponseModel taskList = await _repository.getMyTask(selectedDate.month.toString(), accountModel.userId);
 
-    if (taskList.errorMessage != null) {
-      _tasklistStateFetcher.sink.add(TaskListStream(
-          state: TaskListState.failed,
-          errorMessage: taskList.errorMessage,
-          selectedDate: selectedDate));
-      return;
-    }
 
     if (taskList == null || taskList.listTask.isEmpty) {
       _tasklistStateFetcher.sink.add(TaskListStream(
           state: TaskListState.empty,
           taskList: [],
+          selectedDate: selectedDate));
+      return;
+    }
+
+    if (taskList.errorMessage != null) {
+      _tasklistStateFetcher.sink.add(TaskListStream(
+          state: TaskListState.failed,
+          errorMessage: taskList.errorMessage,
           selectedDate: selectedDate));
       return;
     }

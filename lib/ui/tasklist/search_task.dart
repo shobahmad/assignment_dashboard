@@ -75,8 +75,7 @@ class TaskListWidgetState extends State<SearchTask> {
           Center(
             child: ListTile(
               leading: Icon(Icons.pending_actions, size: 128,),
-              title: Text('\n\nThere is no assigmment for selected parameters!'),
-              subtitle: Text('Please choose another keyword'),
+              title: Text('\n\nThere is no data available')
             ),
           )
         ],

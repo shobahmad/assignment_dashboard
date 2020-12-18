@@ -59,8 +59,7 @@ class TaskListWidgetState extends State<MyTask> {
           Center(
             child: ListTile(
               leading: Icon(Icons.pending_actions, size: 128,),
-              title: Text('\n\nThere is no assigmment for selected parameters!'),
-              subtitle: Text('Please choose another parameters'),
+              title: Text('\n\No data available')
             ),
           )
         ],
@@ -91,19 +90,21 @@ class TaskListWidgetState extends State<MyTask> {
         SizedBox(
           height: 2,
         ),
-        ListItemTask(
-          listTask: snapshot.data.taskList,
-          onItemClick: (value) {
-            Future.delayed(const Duration(seconds: 0), () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TaskDetail(
-                            taskId: value.taskId,
-                            taskName: value.taskName,
-                          )));
-            });
-          },
+        Expanded(
+          child: ListItemTask(
+            listTask: snapshot.data.taskList,
+            onItemClick: (value) {
+              Future.delayed(const Duration(seconds: 0), () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TaskDetail(
+                              taskId: value.taskId,
+                              taskName: value.taskName,
+                            )));
+              });
+            },
+          ),
         )
       ],
     );
