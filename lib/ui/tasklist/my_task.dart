@@ -33,7 +33,14 @@ class TaskListWidgetState extends State<MyTask> {
         builder: (context, AsyncSnapshot<TaskListStream> snapshot) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('My Task'),
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Task List | ', style: TextStyle(fontSize: 20)),
+                  Text('My Task',
+                      style: TextStyle(fontSize: 20, color: Colors.white70)),
+                ],
+              ),
             ),
             body: getBody(snapshot),
           );
