@@ -67,7 +67,9 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                           child: Center(
                             child: Column(
                               children: [
-                                Icon(Icons.person, size: 48),
+                                CircleAvatar(
+                                  radius: 32,
+                                  child: Icon(Icons.person_sharp, size: 48,),),
                                 SizedBox(height: 8),
                                 Text(snapshot.data.accountModel.getName())
                               ],
@@ -85,7 +87,7 @@ class _ProfileDrawerState extends State<ProfileDrawer> {
                           },
                         ),
                         ListTile(
-                          leading: Icon(Icons.search),
+                          leading: Icon(Icons.search_sharp),
                           title: Text("Search"),
                           onTap: () {
                             Navigator.pop(context);
