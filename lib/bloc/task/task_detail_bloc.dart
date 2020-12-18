@@ -26,7 +26,7 @@ class TaskDetailBloc {
       return;
     }
 
-    AccountModel accountModel = _repository.getAccount();
+    AccountModel accountModel = await _repository.getAccount();
     List<String> pics = taskDetail.taskDetailModel.pic.split(",");
     _taskDetailStateFetcher.sink.add(TaskDetailStream(
         state: TaskDetailState.success,
@@ -37,7 +37,8 @@ class TaskDetailBloc {
   postUpdate(int taskId, String progress, String note) async {
     _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.loading));
 
-    TaskDetailResponseModel taskDetail = await _repository.updateTaskDetail(taskId, _repository.getAccount().userId, progress, note);
+    AccountModel accountModel = await _repository.getAccount();
+    TaskDetailResponseModel taskDetail = await _repository.updateTaskDetail(taskId, accountModel.userId, progress, note);
 
     if (taskDetail.message == 'error') {
       _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.error, errorMessage: taskDetail.errorMessage));

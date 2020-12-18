@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:assignment_dashboard/const/storage.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/division_model.dart';
@@ -8,6 +10,7 @@ import 'package:assignment_dashboard/model/task_detail_response_model.dart';
 import 'package:assignment_dashboard/model/task_list_response_model.dart';
 import 'package:assignment_dashboard/resource/task/task_api_provider.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth/login_api_provider.dart';
 import 'dashboard/dashboard_api_provider.dart';
@@ -25,12 +28,22 @@ class Repository {
   Future<LoginResponseModel> postLogin(String username, String password, String token) => loginApiProvider.postLogin(username, password, token);
   Future<LoginResponseModel> postChangePassword(String userId, String password, String newPassword) => loginApiProvider.postChangePassword(userId, password, newPassword);
 //
-  Future saveAccount(AccountModel accountModel) => _storage.setItem(FieldKey.account.value, accountModel.toJSONEncodable());
-  Future clearAccount() => _storage.setItem(FieldKey.account.value, null);
-  AccountModel getAccount() {
-    var accountStorage = _storage.getItem(FieldKey.account.value);
-    return accountStorage == null ? null : AccountModel.json(accountStorage);
+
+  Future<AccountModel> getAccount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accountStorage = prefs.get(FieldKey.account.value);
+    return accountStorage == null ? null : AccountModel.json(json.decode(accountStorage));
   }
+  Future saveAccount(AccountModel accountModel) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String account = json.encode(accountModel.toJSONEncodable());
+    prefs.setString(FieldKey.account.value, account);
+  }
+  Future clearAccount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(FieldKey.account.value, null);
+  } 
+  
 
   Future<TaskDashboardModel> getTaskSummary(DateTime dateTime, String userId, String divisionId) => dashboardApiProvider.getTaskSummary(dateTime, userId, divisionId);
   Future<List<DivisionModel>> getDivisionList() => dashboardApiProvider.getDivisionList();

@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:assignment_dashboard/bloc/task/recent_task_state.dart';
-import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
 import 'package:assignment_dashboard/model/account_model.dart';
-import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/recent_task_response_model.dart';
-import 'package:assignment_dashboard/model/task_list_response_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
 
@@ -16,7 +13,7 @@ class RecentTaskBloc {
 
   getRecentTaskState() async {
     _recentTaskStateFetcher.sink.add(RecentTaskStream(state: RecentTaskState.loading));
-    AccountModel accountModel = _repository.getAccount();
+    AccountModel accountModel = await _repository.getAccount();
 
     RecentTaskResponseModel taskList = await _repository.getRecentTask(accountModel.userId, true);
 

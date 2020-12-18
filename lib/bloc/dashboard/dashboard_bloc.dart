@@ -15,7 +15,7 @@ class DashboardBloc {
   getDashboardState(DateTime time, DivisionModel divisionModel) async {
     _dashboardStateFetcher.sink.add(DashboardStream(state: DashboardState.loading));
 
-    AccountModel accountModel = _repository.getAccount();
+    AccountModel accountModel = await _repository.getAccount();
     divisionModel = divisionModel == null ? accountModel.divisions.first : divisionModel;
     TaskDashboardModel taskDashboard = await _repository.getTaskSummary(time, accountModel.userId, divisionModel.divisionId);
 

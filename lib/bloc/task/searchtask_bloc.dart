@@ -13,7 +13,7 @@ class SearchTaskBloc {
 
   getTaskListState(String keyword) async {
     _tasklistStateFetcher.sink.add(TaskListStream(state: TaskListState.loading));
-    AccountModel accountModel = _repository.getAccount();
+    AccountModel accountModel = await _repository.getAccount();
 
     TaskListResponseModel taskList = await _repository.getTaskByKeywords(keyword, accountModel.userId);
 

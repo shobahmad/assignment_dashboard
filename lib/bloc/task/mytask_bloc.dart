@@ -13,7 +13,7 @@ class MyTaskBloc {
 
   getTaskListState(DateTime selectedDate) async {
     _tasklistStateFetcher.sink.add(TaskListStream(state: TaskListState.loading));
-    AccountModel accountModel = _repository.getAccount();
+    AccountModel accountModel = await _repository.getAccount();
 
     TaskListResponseModel taskList = await _repository.getMyTask(selectedDate.month.toString(), accountModel.userId);
 

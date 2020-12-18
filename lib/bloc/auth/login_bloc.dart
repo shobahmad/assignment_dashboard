@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:assignment_dashboard/model/account_model.dart';
 import 'package:assignment_dashboard/model/login_response_model.dart';
 import 'package:assignment_dashboard/resource/repository.dart';
 
@@ -26,6 +27,7 @@ class LoginBloc {
       return;
     }
 
+//    _repository.saveAccount(loginModel.data);
     _repository.saveAccount(loginModel.data);
 
     _loginStateFetcher.sink.add(LoginStream(LoginState.success, ''));
@@ -33,7 +35,8 @@ class LoginBloc {
 
   postChangePassword(String password, String newPassword) async {
     _loginStateFetcher.sink.add(LoginStream(LoginState.loading, ''));
-    LoginResponseModel loginModel = await _repository.postChangePassword(_repository.getAccount().userId, password, newPassword);
+    AccountModel accountModel = await _repository.getAccount();
+    LoginResponseModel loginModel = await _repository.postChangePassword(accountModel.userId, password, newPassword);
 
     if (loginModel == null) {
       _loginStateFetcher.sink.add(LoginStream(LoginState.failed, 'Unfortunatelly, unexpected result'));
@@ -46,10 +49,7 @@ class LoginBloc {
 
     _loginStateFetcher.sink.add(LoginStream(LoginState.success, ''));
   }
-  logout() async {
-    _repository.clearAccount();
-    _loginStateFetcher.sink.add(LoginStream(LoginState.logout, ''));
-  }
+
   dispose() {
     _loginStateFetcher.close();
   }

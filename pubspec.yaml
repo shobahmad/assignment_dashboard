@@ -31,6 +31,7 @@ dependencies:
   cupertino_icons: ^1.0.1
   rxdart: ^0.24.0
   localstorage: ^3.0.0
+  shared_preferences: ^0.5.12+4
   marquee: ^1.5.2
   http: ^0.12.0+1
   alice: ^0.1.3

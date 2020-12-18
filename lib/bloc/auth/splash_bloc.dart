@@ -13,17 +13,14 @@ class SplashBloc {
 
   getSplashState() async {
     _loginStateFetcher.sink.add(SplashState.loading);
-    Future.delayed(const Duration(seconds: 2), () async {
-      AccountModel account = _repository.getAccount();
+    AccountModel account = await _repository.getAccount();
 
-      if (account != null) {
-        _loginStateFetcher.sink.add(SplashState.authorized);
-        return;
-      }
+    if (account != null) {
+      _loginStateFetcher.sink.add(SplashState.authorized);
+      return;
+    }
 
-      _loginStateFetcher.sink.add(SplashState.unauthorized);
-    });
-
+    _loginStateFetcher.sink.add(SplashState.unauthorized);
   }
 
   dispose() {
