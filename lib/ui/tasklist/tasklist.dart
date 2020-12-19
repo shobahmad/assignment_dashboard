@@ -23,7 +23,7 @@ class TaskList extends StatefulWidget {
 }
 
 class TaskListWidgetState extends State<TaskList> {
-  var bloc;
+  TaskListBloc bloc;
   @override
   void initState() {
     super.initState();

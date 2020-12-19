@@ -17,7 +17,7 @@ class SearchTaskBloc {
 
     TaskListResponseModel taskList = await _repository.getTaskByKeywords(keyword, accountModel.userId);
 
-    if (taskList == null || taskList.listTask.isEmpty) {
+    if (taskList != null && taskList.listTask != null && taskList.listTask.isEmpty) {
       _tasklistStateFetcher.sink.add(TaskListStream(state: TaskListState.empty));
       return;
     }

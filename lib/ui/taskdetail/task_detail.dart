@@ -1,16 +1,13 @@
-import 'package:assignment_dashboard/bloc/task/mytask_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_state.dart';
-import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
 import 'package:assignment_dashboard/const/status.dart';
-import 'package:assignment_dashboard/model/month_picker_param.dart';
-import 'package:assignment_dashboard/ui/common/field_month_picker.dart';
-import 'package:assignment_dashboard/ui/common/list_item_task.dart';
 import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 
 class TaskDetail extends StatefulWidget {
   final int taskId;
@@ -25,10 +22,17 @@ class TaskDetail extends StatefulWidget {
 
 class TaskListWidgetState extends State<TaskDetail> {
   TaskDetailBloc bloc;
+  bool _updateTaskEnabled = true;
+  int _progressValue;
+  String _progressNotes = '';
+  bool _autoComplete = false;
+  Status _status;
+
   @override
   void initState() {
     super.initState();
     bloc = TaskDetailBloc();
+    _status = widget.taskStatus;
     _getData();
   }
 
@@ -80,7 +84,7 @@ class TaskListWidgetState extends State<TaskDetail> {
                        leading: ProgressChart(
                            percentage:
                            snapshot.data.taskDetail.progressPercent.toDouble(),
-                       status: widget.taskStatus,),
+                       status: _status,),
                        subtitle: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
@@ -243,9 +247,12 @@ class TaskListWidgetState extends State<TaskDetail> {
     );
   }
 
-  Widget inputProgress(int progress) {
-    TextEditingController textProgressController = new TextEditingController(text:progress.toString());
-    TextEditingController textNotesController = new TextEditingController();
+  Widget inputProgress(int minValue) {
+    TextEditingController textProgressController = new TextEditingController(
+        text: (_progressValue == null ? minValue + 1 : _progressValue)
+            .toString()
+    );
+    TextEditingController textNotesController = new TextEditingController(text: _progressNotes);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,6 +262,33 @@ class TaskListWidgetState extends State<TaskDetail> {
         SizedBox(height: 8,),
         Text('    Update Progress', style: TextStyle(color: Colors.green, fontSize: 16),),
         SizedBox(height: 8,),
+        Row(
+          children: [
+            Checkbox(
+                value: _autoComplete,
+                onChanged: (value) {
+                  if (!value) {
+                    setState(() {
+                      _autoComplete = false;
+                      _updateTaskEnabled = true;
+                      _progressValue = minValue + 1;
+                      _progressNotes = '';
+                    });
+                    return;
+                  }
+
+                  setState(() {
+                    _autoComplete = true;
+                    _updateTaskEnabled = true;
+                    _progressValue = 100;
+                    _progressNotes = 'The task has been completed';
+
+                  });
+
+                }),
+            Text('Complete this task')
+          ],
+        ),
         Padding(
           padding: EdgeInsets.all(8),
           child: Row(
@@ -264,6 +298,15 @@ class TaskListWidgetState extends State<TaskDetail> {
               Container(
                 width: 100,
                 child: TextField(
+                  onChanged: (value) {
+                    EasyDebounce.debounce('debouncer1', Duration(milliseconds: 500), () {
+                      setState(() {
+                        int progressInput = value.trim().isEmpty ? 0 : int.parse(value);
+                        _updateTaskEnabled = progressInput > minValue && progressInput <= 100;
+                        _progressValue = progressInput;
+                      });
+                    });
+                  },
                   controller: textProgressController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -273,7 +316,9 @@ class TaskListWidgetState extends State<TaskDetail> {
                       filled: false,
                       suffix: Text('%'),
                       hintText: 'Progress',
-                      labelText: 'Progress'),
+                      labelText: 'Progress',
+                      errorText: _updateTaskEnabled ? null : 'Invalid value'
+                  ),
                 ),),
               SizedBox(width: 6,),
               Expanded(child:
@@ -294,9 +339,13 @@ class TaskListWidgetState extends State<TaskDetail> {
               ),
               FloatingActionButton(
                 child: Icon(Icons.send),
-                onPressed: () {
+                onPressed: _updateTaskEnabled ? () {
+                  if (int.parse(textProgressController.text) == 100) {
+                    _status = Status.finish;
+                  }
                   bloc.postUpdate(widget.taskId, textProgressController.text, textNotesController.text);
-                },
+                } : null,
+
               ),
             ],
           ),

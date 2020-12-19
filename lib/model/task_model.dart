@@ -28,7 +28,20 @@ class TaskModel {
     division = m['division_desc'];
     pic = m['pic'];
     progress = m['progress'];
-    status = Status.values[m['status']];
+    var paramStatus = m['status'];
+    status = paramStatus == null ? Status.unknown : Status.values[paramStatus];
+  }
+  TaskModel.jsonNoStatus(Map<String, dynamic> m, Status status) {
+    taskId = m['task_id'];
+    taskName = m['task_name'];
+    taskDescription = m['task_description'];
+    dateStart = DateUtil.parseFromServer(m['start_date']);
+    dateTarget = DateUtil.parseFromServer(m['target_date']);
+    dateFinish = DateUtil.parseFromServer(m['finish_date']);
+    division = m['division_desc'];
+    pic = m['pic'];
+    progress = m['progress'];
+    this.status = status;
   }
 
 }

@@ -2,6 +2,7 @@ enum Status {
   on_progress,
   finish,
   behind_schedule,
+  unknown
 }
 
 extension StatusExtension on Status {
@@ -14,6 +15,8 @@ extension StatusExtension on Status {
         return 2;
       case Status.on_progress:
         return 0;
+      case Status.unknown:
+        return 3;
       default:
         return null;
     }
@@ -26,6 +29,8 @@ extension StatusExtension on Status {
         return 'Finish';
       case Status.behind_schedule:
         return 'Behind Schedule';
+      case Status.unknown:
+        return 'Unknown';
       default:
         return null;
     }

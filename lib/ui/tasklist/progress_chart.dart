@@ -50,12 +50,12 @@ class ProgressChartState extends State<ProgressChart> {
       switch (i) {
         case 1:
           return PieChartSectionData(
-            color: getColor(widget.status),
+            color: getChartColor(widget.status),
             value: widget.percentage,
             title: widget.percentage.toInt().toString() + '%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xff000000)),
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
             badgeWidget: Container()
           );
         case 0:
@@ -74,7 +74,7 @@ class ProgressChartState extends State<ProgressChart> {
     });
   }
 
-  MaterialColor getColor(Status status) {
+  MaterialColor getChartColor(Status status) {
     if (status == Status.on_progress) {
       return Colors.orange;
     }
@@ -86,6 +86,20 @@ class ProgressChartState extends State<ProgressChart> {
     }
 
     return Colors.lightBlue;
+
+  }
+  MaterialColor getTextColor(Status status) {
+    if (status == Status.on_progress) {
+      return Colors.black;
+    }
+    if (status == Status.finish) {
+      return Colors.white;
+    }
+    if (status == Status.behind_schedule) {
+      return Colors.white;
+    }
+
+    return Colors.black;
 
   }
 

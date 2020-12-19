@@ -16,7 +16,20 @@ class TaskListResponseModel {
     }
 
     for (var i=0; i < m['data'].length; i++) {
-      listTask.add(TaskModel.json(m['data'][i]));
+      TaskModel taskModel = TaskModel.json(m['data'][i]);
+      listTask.add(taskModel);
+    }
+  }
+  TaskListResponseModel.jsonNoStatus(Map<String, dynamic> m, Status status) {
+    var error = m['data'] is String;
+    errorMessage = error ? m['data'] : null;
+    listTask = [];
+    if (error) {
+      return;
+    }
+
+    for (var i=0; i < m['data'].length; i++) {
+      listTask.add(TaskModel.jsonNoStatus(m['data'][i], status));
     }
   }
 }

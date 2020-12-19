@@ -40,7 +40,7 @@ class TaskApiProvider {
       }
 
       if (response.statusCode == 200) {
-        return TaskListResponseModel.json(json.decode(response.body));
+        return TaskListResponseModel.jsonNoStatus(json.decode(response.body), Status.values[int.parse(status)]);
       }
 
       return TaskListResponseModel.error(json.decode(response.body)['data']);
