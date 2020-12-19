@@ -55,16 +55,16 @@ class TaskListWidgetState extends State<RecentTask> {
                   child: TextField(
                       style: TextStyle(fontSize: 12),
                       controller: TextEditingController(
-                          text: recentTaskModel[index].description),
+                          text: snapshot.data.taskList[index].description),
                       readOnly: true,
                       decoration: InputDecoration(
                           labelStyle: TextStyle(fontSize: 10),
                           border: InputBorder.none,
                           labelText:
-                          DateUtil.formatToyMdHm(recentTaskModel[index].datetime),
+                          DateUtil.formatToyMdHm(snapshot.data.taskList[index].datetime),
                           prefixIcon: Icon(Icons.assignment, color: Colors.green,)
                       )),
-                ),);
+                );
               },
               itemCount: snapshot.data.taskList.length,
             ),
