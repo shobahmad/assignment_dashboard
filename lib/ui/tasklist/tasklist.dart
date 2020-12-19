@@ -125,7 +125,9 @@ class TaskListWidgetState extends State<TaskList> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TaskDetail(
-                              taskId: value.taskId, taskName: value.taskName)));
+                              taskId: value.taskId,
+                              taskName: value.taskName,
+                              taskStatus: value.status)));
                 },
               );
             },

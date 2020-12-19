@@ -99,10 +99,12 @@ class TaskListWidgetState extends State<SearchTask> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => TaskDetail(
-                      taskId: value.taskId, taskName: value.taskName)));
+                  builder: (context) => TaskDetail(
+                      taskId: value.taskId,
+                      taskName: value.taskName,
+                      taskStatus: value.status)));
         });
-    },
+      },
     onPullRefresh: (value) {
 
     },);

@@ -40,7 +40,8 @@ class _ListItemTaskState extends State<ListItemTask> {
               leading: ProgressChart(
                   percentage: widget.listTask[index].progress == null
                       ? 0.0
-                      : widget.listTask[index].progress.toDouble()),
+                      : widget.listTask[index].progress.toDouble(),
+              status: widget.listTask[index].status,),
               title: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

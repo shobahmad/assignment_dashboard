@@ -1,11 +1,13 @@
+import 'package:assignment_dashboard/const/status.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 
 class ProgressChart extends StatefulWidget {
   final double percentage;
+  final Status status;
 
-  const ProgressChart({Key key, this.percentage}) : super(key: key);
+  const ProgressChart({Key key, this.percentage, this.status}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ProgressChartState();
@@ -48,7 +50,7 @@ class ProgressChartState extends State<ProgressChart> {
       switch (i) {
         case 1:
           return PieChartSectionData(
-            color: Colors.greenAccent,
+            color: getColor(widget.status),
             value: widget.percentage,
             title: widget.percentage.toInt().toString() + '%',
             radius: radius,
@@ -71,4 +73,20 @@ class ProgressChartState extends State<ProgressChart> {
       }
     });
   }
+
+  MaterialColor getColor(Status status) {
+    if (status == Status.on_progress) {
+      return Colors.orange;
+    }
+    if (status == Status.finish) {
+      return Colors.green;
+    }
+    if (status == Status.behind_schedule) {
+      return Colors.red;
+    }
+
+    return Colors.lightBlue;
+
+  }
+
 }

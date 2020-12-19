@@ -120,6 +120,7 @@ class TaskListWidgetState extends State<MyTask> {
                         builder: (context) => TaskDetail(
                           taskId: value.taskId,
                           taskName: value.taskName,
+                          taskStatus: value.status,
                         )));
               });
             },

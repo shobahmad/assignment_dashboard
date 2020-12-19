@@ -2,6 +2,7 @@ import 'package:assignment_dashboard/bloc/task/mytask_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_state.dart';
 import 'package:assignment_dashboard/bloc/task/tasklist_state.dart';
+import 'package:assignment_dashboard/const/status.dart';
 import 'package:assignment_dashboard/model/month_picker_param.dart';
 import 'package:assignment_dashboard/ui/common/field_month_picker.dart';
 import 'package:assignment_dashboard/ui/common/list_item_task.dart';
@@ -14,11 +15,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class TaskDetail extends StatefulWidget {
   final int taskId;
   final String taskName;
+  final Status taskStatus;
 
   @override
   State<StatefulWidget> createState() => TaskListWidgetState();
 
-  const TaskDetail({Key key, this.taskId, this.taskName});
+  const TaskDetail({Key key, this.taskId, this.taskName, this.taskStatus});
 }
 
 class TaskListWidgetState extends State<TaskDetail> {
@@ -77,7 +79,8 @@ class TaskListWidgetState extends State<TaskDetail> {
                      child: ListTile(
                        leading: ProgressChart(
                            percentage:
-                           snapshot.data.taskDetail.progressPercent.toDouble()),
+                           snapshot.data.taskDetail.progressPercent.toDouble(),
+                       status: widget.taskStatus,),
                        subtitle: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [

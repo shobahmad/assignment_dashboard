@@ -14,8 +14,9 @@ class TaskModel {
   String division;
   String pic;
   int progress;
+  Status status;
 
-  TaskModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.division, this.pic, this.progress);
+  TaskModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.division, this.pic, this.progress, this.status);
 
   TaskModel.json(Map<String, dynamic> m) {
     taskId = m['task_id'];
@@ -27,6 +28,7 @@ class TaskModel {
     division = m['division_desc'];
     pic = m['pic'];
     progress = m['progress'];
+    status = Status.values[m['status']];
   }
 
 }
