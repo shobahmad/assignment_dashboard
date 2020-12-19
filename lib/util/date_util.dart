@@ -8,6 +8,9 @@ class DateUtil {
     if (dateParam == '0000-00-00') {
         return null;
     }
+    if (dateParam == '2099-01-01') {
+        return null;
+    }
     if (!dateParam.contains(" ")) {
       return new DateFormat('y-M-d').parse(dateParam);
     }
