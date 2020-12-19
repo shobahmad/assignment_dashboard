@@ -102,6 +102,9 @@ class TaskListWidgetState extends State<SearchTask> {
                 builder: (context) => TaskDetail(
                       taskId: value.taskId, taskName: value.taskName)));
         });
+    },
+    onPullRefresh: (value) {
+
     },);
   }
 

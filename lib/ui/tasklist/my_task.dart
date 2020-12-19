@@ -102,35 +102,34 @@ class TaskListWidgetState extends State<MyTask> {
           ));
     }
 
-    return RefreshIndicator(
-        onRefresh: _getData,
-        child: ListView(
-          children: [
-            parameter(snapshot),
-            SizedBox(
-              height: 2,
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: _getData,
-                child: ListItemTask(
-                  listTask: snapshot.data.taskList,
-                  onItemClick: (value) {
-                    Future.delayed(const Duration(seconds: 0), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TaskDetail(
-                                taskId: value.taskId,
-                                taskName: value.taskName,
-                              )));
-                    });
-                  },
-                ),
-              ),
-            )
-          ],
-        ));
+    return Column(
+      children: [
+        parameter(snapshot),
+        SizedBox(
+          height: 2,
+        ),
+        Expanded(
+          child:
+          ListItemTask(
+            listTask: snapshot.data.taskList,
+            onItemClick: (value) {
+              Future.delayed(const Duration(seconds: 0), () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TaskDetail(
+                          taskId: value.taskId,
+                          taskName: value.taskName,
+                        )));
+              });
+            },
+            onPullRefresh:(value) {
+              _getData();
+            },
+          ),
+        )
+      ],
+    );
   }
 
   Future<void> _getData() async {
