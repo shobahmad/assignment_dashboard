@@ -296,7 +296,7 @@ class TaskListWidgetState extends State<TaskDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 100,
+                width: 75,
                 child: TextField(
                   onChanged: (value) {
                     EasyDebounce.debounce('debouncer1', Duration(milliseconds: 500), () {
@@ -324,14 +324,15 @@ class TaskListWidgetState extends State<TaskDetail> {
               Expanded(child:
               TextField(
                 controller: textNotesController,
-                keyboardType: TextInputType.text,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue)),
                     filled: false,
-                    hintText: 'Notes',
-                    labelText: 'Notes'),
+                    labelText: 'Progress Information / Issue',
+                    hintText: 'Type your progress update here'),
               ),
               ),
               SizedBox(

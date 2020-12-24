@@ -102,7 +102,7 @@ class _ListItemTaskState extends State<ListItemTask> {
                                 text:
                                 widget.listTask[index].division),
                             enabled: false,
-                            maxLines: 2,
+                            maxLines: null,
                             style: TextStyle(fontSize: 12),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -114,13 +114,34 @@ class _ListItemTaskState extends State<ListItemTask> {
                             controller: TextEditingController(
                                 text: widget.listTask[index].pic),
                             enabled: false,
-                            maxLines: 2,
+                            maxLines: null,
                             style: TextStyle(fontSize: 12),
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.person_pin),
                                 border: InputBorder.none,
                                 labelText: 'PIC'),
                           ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: TextEditingController(
+                                text:
+                                widget.listTask[index].category),
+                            enabled: false,
+                            maxLines: null,
+                            style: TextStyle(fontSize: 12),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelText: 'Category'),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(),
                         )
                       ],
                     ),

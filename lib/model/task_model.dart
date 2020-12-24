@@ -15,8 +15,9 @@ class TaskModel {
   String pic;
   int progress;
   Status status;
+  String category;
 
-  TaskModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.division, this.pic, this.progress, this.status);
+  TaskModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.division, this.pic, this.progress, this.status, this.category);
 
   TaskModel.json(Map<String, dynamic> m) {
     taskId = m['task_id'];
@@ -30,6 +31,7 @@ class TaskModel {
     progress = m['progress'];
     var paramStatus = m['status'];
     status = paramStatus == null ? Status.unknown : Status.values[paramStatus];
+    category = m['category'];
   }
   TaskModel.jsonNoStatus(Map<String, dynamic> m, Status status) {
     taskId = m['task_id'];
@@ -41,6 +43,7 @@ class TaskModel {
     division = m['division_desc'];
     pic = m['pic'];
     progress = m['progress'];
+    category = m['category'];
     this.status = status;
   }
 
