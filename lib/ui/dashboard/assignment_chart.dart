@@ -93,7 +93,7 @@ class AssignmentChartState extends State<AssignmentChart> {
           return PieChartSectionData(
             color: Colors.orange,
             value: widget.qtyOnProgress,
-            title: '     On Progress',
+            title: (widget.qtyOnProgress.toInt() == 0 ? '' : '     On Progress'),
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
@@ -108,7 +108,7 @@ class AssignmentChartState extends State<AssignmentChart> {
           return PieChartSectionData(
             color: Colors.green,
             value: widget.qtyDone,
-            title: 'Finish',
+            title: (widget.qtyDone.toInt() == 0 ? '' : 'Finish'),
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
@@ -123,7 +123,7 @@ class AssignmentChartState extends State<AssignmentChart> {
           return PieChartSectionData(
             color: Colors.red,
             value: widget.qtyBehindSchedule,
-            title: '  Behind\n      Schedule',
+            title: (widget.qtyBehindSchedule.toInt() == 0 ? '' : '  Behind\n      Schedule'),
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -157,6 +157,9 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (this.label == '0') {
+      return Container();
+    }
     return AnimatedContainer(
       duration: PieChart.defaultDuration,
       width: size,
