@@ -51,7 +51,7 @@ class TaskListWidgetState extends State<SearchTask> {
           Center(
             child: ListTile(
               leading: Icon(Icons.search, size: 128,),
-              title: Text('\n\nFind task here'),
+              title: Text('\n\nType any task, issue, or pic to search assignments...'),
             ),
           )
         ],
