@@ -33,6 +33,6 @@ class DateUtil {
     if (dateParam == null) {
       return "-";
     }
-    return new DateFormat('MMMM y').format(dateParam);
+    return new DateFormat('MMM y').format(dateParam);
   }
 }
