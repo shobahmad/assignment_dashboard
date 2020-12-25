@@ -43,9 +43,8 @@ class LoginScreenState extends State<LoginScreen> {
           SizedBox(height: 24),
           Image(
               image: AssetImage('assets/images/logo.png'),
-              width: 64),
-          SizedBox(height: 50),
-          Text('SIGN IN', style: TextStyle(color: Colors.blueGrey, fontSize: 24, fontWeight: FontWeight.bold),),
+              width: 128),
+          SizedBox(height: 12),
         ],),
       ),
       body: Container(

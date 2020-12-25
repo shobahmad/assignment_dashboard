@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'login.dart';
 
-var bloc;
+SplashBloc bloc;
 
 class SplashScreen extends StatefulWidget {
   @override
