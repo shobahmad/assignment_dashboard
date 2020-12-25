@@ -50,21 +50,19 @@ class TaskListWidgetState extends State<RecentTask> {
                 );
               },
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: TextField(
-                      style: TextStyle(fontSize: 12),
-                      controller: TextEditingController(
-                          text: snapshot.data.taskList[index].description),
-                      readOnly: true,
-                      decoration: InputDecoration(
-                          labelStyle: TextStyle(fontSize: 10),
-                          border: InputBorder.none,
-                          labelText:
-                          DateUtil.formatToyMdHm(snapshot.data.taskList[index].datetime),
-                          prefixIcon: Icon(Icons.assignment, color: Colors.green,)
-                      )),
-                );
+                return TextField(
+                    style: TextStyle(fontSize: 12),
+                    maxLines: null,
+                    controller: TextEditingController(
+                        text: snapshot.data.taskList[index].description),
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        labelStyle: TextStyle(fontSize: 10),
+                        border: InputBorder.none,
+                        labelText:
+                        DateUtil.formatToyMdHm(snapshot.data.taskList[index].datetime),
+                        prefixIcon: Icon(Icons.assignment, color: Colors.green,)
+                    ));
               },
               itemCount: snapshot.data.taskList.length,
             ),
