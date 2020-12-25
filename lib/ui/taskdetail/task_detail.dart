@@ -1,6 +1,7 @@
 import 'package:assignment_dashboard/bloc/task/task_detail_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_state.dart';
 import 'package:assignment_dashboard/const/status.dart';
+import 'package:assignment_dashboard/ui/taskdetail/update_progress.dart';
 import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -271,7 +272,12 @@ class TaskListWidgetState extends State<TaskDetail> {
                                     color: Colors.blue,
                                   ),
                                   onPressed: () {
-
+                                    Future.delayed(const Duration(seconds: 0), () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UpdateProgress(snapshot.data.taskDetail.progress[index], snapshot.data.taskDetail.taskName, snapshot.data.taskDetail.taskDescription)));
+                                    });
                                   },
                                 )
                               : Container()
