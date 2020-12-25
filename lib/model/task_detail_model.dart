@@ -9,10 +9,12 @@ class TaskDetailModel {
   DateTime dateTarget;
   DateTime dateFinish;
   String pic;
+  String division;
+  String category;
   List<TaskProgressModel> progress;
   int progressPercent = 0;
 
-  TaskDetailModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.pic, this.progress);
+  TaskDetailModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.pic, this.progress, this.division, this.category);
 
   TaskDetailModel.json(Map<String, dynamic> m) {
     taskId = m['task_id'];
@@ -22,6 +24,8 @@ class TaskDetailModel {
     dateTarget = DateUtil.parseFromServer(m['target_date']);
     dateFinish = DateUtil.parseFromServer(m['finish_date']);
     pic = m['pic'];
+    division = m['division_desc'];
+    category = m['category'];
     progress = [];
 
     for (var i=0; i < m['progress'].length; i++) {

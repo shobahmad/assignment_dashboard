@@ -85,7 +85,7 @@ class TaskListWidgetState extends State<TaskDetail> {
                            percentage:
                            snapshot.data.taskDetail.progressPercent.toDouble(),
                        status: _status,),
-                       subtitle: Column(
+                       title: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
                            Row(
@@ -130,16 +130,61 @@ class TaskListWidgetState extends State<TaskDetail> {
                            ),
                          ],
                        ),
-                       title: TextField(
-                         controller: TextEditingController(
-                             text: snapshot.data.taskDetail.pic),
-                         readOnly: true,
-                         maxLines: 2,
-                         style: TextStyle(fontSize: 12),
-                         decoration: InputDecoration(
-                             prefixIcon: Icon(Icons.person_pin),
-                             border: InputBorder.none,
-                             labelText: 'PIC'),
+                       subtitle: Column(
+                         children: [
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: [
+                               Expanded(
+                                 child: TextField(
+                                   controller: TextEditingController(
+                                       text:
+                                       snapshot.data.taskDetail.division),
+                                   enabled: false,
+                                   maxLines: null,
+                                   style: TextStyle(fontSize: 12),
+                                   decoration: InputDecoration(
+                                       border: InputBorder.none,
+                                       labelText: 'Division'),
+                                 ),
+                               ),
+                               Expanded(
+                                 child: TextField(
+                                   controller: TextEditingController(
+                                       text: snapshot.data.taskDetail.pic),
+                                   enabled: false,
+                                   maxLines: null,
+                                   style: TextStyle(fontSize: 12),
+                                   decoration: InputDecoration(
+                                       prefixIcon: Icon(Icons.person_pin),
+                                       border: InputBorder.none,
+                                       labelText: 'PIC'),
+                                 ),
+                               )
+                             ],
+                           ),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: [
+                               Expanded(
+                                 child: TextField(
+                                   controller: TextEditingController(
+                                       text:
+                                       snapshot.data.taskDetail.category),
+                                   enabled: false,
+                                   maxLines: null,
+                                   style: TextStyle(fontSize: 12),
+                                   decoration: InputDecoration(
+                                       border: InputBorder.none,
+                                       labelText: 'Category'),
+                                 ),
+                               ),
+                               Expanded(
+                                 child: Container(),
+                               )
+                             ],
+                           )
+                         ],
                        ),
                      ),
                    ),
@@ -210,7 +255,7 @@ class TaskListWidgetState extends State<TaskDetail> {
                                    text: snapshot
                                        .data.taskDetail.progress[index].userId),
                                readOnly: true,
-                               maxLines: 2,
+                               maxLines: null,
                                style: TextStyle(fontSize: 12),
                                decoration: InputDecoration(
                                    prefixIcon: Icon(Icons.person_pin),
