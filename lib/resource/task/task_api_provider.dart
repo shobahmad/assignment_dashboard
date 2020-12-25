@@ -112,7 +112,7 @@ class TaskApiProvider {
     }
   }
 
-  Future<TaskDetailResponseModel> getTaskDetail(int taskId) async {
+  Future<TaskDetailResponseModel> getTaskDetail(int taskId, String userId) async {
     Map data = {
       'request': {
         'task_id': taskId.toString()
@@ -134,7 +134,7 @@ class TaskApiProvider {
       }
 
       if (response.statusCode == 200) {
-        return TaskDetailResponseModel.json(json.decode(response.body));
+        return TaskDetailResponseModel.json(json.decode(response.body), userId);
       }
 
       return TaskDetailResponseModel.error(json.decode(response.body)['data']);
@@ -167,7 +167,7 @@ class TaskApiProvider {
       }
 
       if (response.statusCode == 200) {
-        return TaskDetailResponseModel.json(json.decode(response.body));
+        return TaskDetailResponseModel.json(json.decode(response.body), userId);
       }
 
       return TaskDetailResponseModel.error(json.decode(response.body)['data']);

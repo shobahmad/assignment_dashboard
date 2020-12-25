@@ -16,7 +16,7 @@ class TaskDetailModel {
 
   TaskDetailModel(this.taskId, this.taskName, this.taskDescription, this.dateStart, this.dateTarget, this.dateFinish, this.pic, this.progress, this.division, this.category);
 
-  TaskDetailModel.json(Map<String, dynamic> m) {
+  TaskDetailModel.json(Map<String, dynamic> m, String userId) {
     taskId = m['task_id'];
     taskName = m['task_name'];
     taskDescription = m['task_description'];
@@ -30,6 +30,8 @@ class TaskDetailModel {
 
     for (var i=0; i < m['progress'].length; i++) {
       TaskProgressModel progressModel = TaskProgressModel.json(m['progress'][i]);
+
+      progressModel.editable = progressModel.userId == userId;
       progress.add(progressModel);
 
       if (i == 0) {

@@ -19,14 +19,14 @@ class TaskDetailBloc {
   getTaskDetailState(int taskId) async {
     _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.loading));
 
-    TaskDetailResponseModel taskDetail = await _repository.getTaskDetail(taskId);
+    AccountModel accountModel = await _repository.getAccount();
+    TaskDetailResponseModel taskDetail = await _repository.getTaskDetail(taskId, accountModel.userId);
 
     if (taskDetail.errorMessage != null) {
       _taskDetailStateFetcher.sink.add(TaskDetailStream(state: TaskDetailState.error, errorMessage: taskDetail.errorMessage));
       return;
     }
 
-    AccountModel accountModel = await _repository.getAccount();
     List<String> pics = taskDetail.taskDetailModel.pic.split(",");
     _taskDetailStateFetcher.sink.add(TaskDetailStream(
         state: TaskDetailState.success,

@@ -225,6 +225,7 @@ class TaskListWidgetState extends State<TaskDetail> {
                      },
                      itemBuilder: (context, index) {
                        return Row(
+                         crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
                            SizedBox(width: 16,),
                            Expanded(
@@ -262,8 +263,19 @@ class TaskListWidgetState extends State<TaskDetail> {
                                    border: InputBorder.none,
                                    labelText: 'PIC'),
                              ),
-                           )
-                         ],
+                           ),
+                           snapshot.data.taskDetail.progress[index].editable
+                              ? FlatButton(
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                )
+                              : Container()
+                        ],
                        );
                      },
                      itemCount: snapshot.data.taskDetail.progress.length,

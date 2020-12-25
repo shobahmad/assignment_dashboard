@@ -52,7 +52,7 @@ class Repository {
   Future<TaskListResponseModel> getTaskList(String month, String userId, String divisionId, String status) => taskApiProvider.getTaskListByStatus(month, userId, divisionId, status);
   Future<TaskListResponseModel> getMyTask(String month, String userId) => taskApiProvider.getTaskListByUser(month, userId);
   Future<TaskListResponseModel> getTaskByKeywords(String keyword, String userId) => taskApiProvider.getTaskListByKeywords(keyword, userId);
-  Future<TaskDetailResponseModel> getTaskDetail(int taskId) => taskApiProvider.getTaskDetail(taskId);
+  Future<TaskDetailResponseModel> getTaskDetail(int taskId, String userId) => taskApiProvider.getTaskDetail(taskId, userId);
   Future<TaskDetailResponseModel> updateTaskDetail(int taskId, String userId, String progress, String notes) => taskApiProvider.updateTaskDetail(taskId, userId, progress, notes);
 
 

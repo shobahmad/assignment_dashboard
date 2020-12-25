@@ -9,11 +9,11 @@ class TaskDetailResponseModel {
 
   TaskDetailResponseModel.error(this.errorMessage);
 
-  TaskDetailResponseModel.json(Map<String, dynamic> m) {
+  TaskDetailResponseModel.json(Map<String, dynamic> m, String userId) {
     var error = m['data'] is String;
     message = m['message'];
     errorMessage = error ? m['data'] : null;
 
-    taskDetailModel = TaskDetailModel.json(m['data'][0]);
+    taskDetailModel = TaskDetailModel.json(m['data'][0], userId);
   }
 }

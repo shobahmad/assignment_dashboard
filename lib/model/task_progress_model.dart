@@ -6,10 +6,11 @@ class TaskProgressModel {
   String userId;
   DateTime datetime;
   String progressDescription;
+  bool editable;
 
 
   TaskProgressModel(this.taskId, this.progressPercent, this.userId,
-      this.datetime, this.progressDescription);
+      this.datetime, this.progressDescription, this.editable);
 
   TaskProgressModel.json(Map<String, dynamic> m) {
     taskId = m['task_id'];
