@@ -4,6 +4,7 @@ import 'package:assignment_dashboard/model/division_model.dart';
 import 'package:assignment_dashboard/model/month_picker_param.dart';
 import 'package:assignment_dashboard/model/recent_task_model.dart';
 import 'package:assignment_dashboard/ui/common/field_month_picker.dart';
+import 'package:assignment_dashboard/ui/common/lifecycle_event_handler.dart';
 import 'package:assignment_dashboard/ui/dashboard/profile_drawer.dart';
 import 'package:assignment_dashboard/ui/tasklist/recent_task.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'assignment_chart.dart';
 import 'division_picker.dart';
+import 'package:flutter/services.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -30,6 +32,8 @@ class DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     dashboardBloc = DashboardBloc();
     _getData();
+    WidgetsBinding.instance.addObserver(
+        LifecycleEventHandler(resumeCallBack: () async => _getData()));
   }
 
   @override

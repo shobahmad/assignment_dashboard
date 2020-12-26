@@ -1,6 +1,7 @@
 import 'package:assignment_dashboard/bloc/task/task_detail_bloc.dart';
 import 'package:assignment_dashboard/bloc/task/task_detail_state.dart';
 import 'package:assignment_dashboard/const/status.dart';
+import 'package:assignment_dashboard/ui/common/lifecycle_event_handler.dart';
 import 'package:assignment_dashboard/ui/taskdetail/update_progress.dart';
 import 'package:assignment_dashboard/ui/tasklist/progress_chart.dart';
 import 'package:assignment_dashboard/util/date_util.dart';
@@ -35,6 +36,10 @@ class TaskListWidgetState extends State<TaskDetail> {
     bloc = TaskDetailBloc();
     _status = widget.taskStatus;
     _getData();
+
+    WidgetsBinding.instance.addObserver(
+        LifecycleEventHandler(resumeCallBack: () async => _getData()));
+
   }
 
   @override
