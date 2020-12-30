@@ -175,6 +175,38 @@ class TaskApiProvider {
       return TaskDetailResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
     }
   }
+  Future<TaskDetailResponseModel> deleteTaskDetail(int taskId, String userId, String progress) async {
+    Map data = {
+      'request': {
+        'task_id': taskId.toString(),
+        'user_id': userId,
+        'progress': progress
+      }
+    };
+    var body = json.encode(data);
+
+    try {
+      final response = await client
+          .post("$_baseUrl/dashboardtm/tasks/deleteprogress",
+          headers: {"Content-Type": "application/json"}, body: body)
+          .catchError((error, stackTrace) {
+        throw error;
+      });
+      if (App.debugHttp) App.alice.onHttpResponse(response);
+
+      if (response == null) {
+        return TaskDetailResponseModel.error('Unexpected for empty result, please try again later');
+      }
+
+      if (response.statusCode == 200) {
+        return TaskDetailResponseModel.json(json.decode(response.body), userId);
+      }
+
+      return TaskDetailResponseModel.error(json.decode(response.body)['data']);
+    } catch(e, stacktrace) {
+      return TaskDetailResponseModel.error('Error occurred while Communication with Server.\n${stacktrace.toString()}');
+    }
+  }
 
 
 }

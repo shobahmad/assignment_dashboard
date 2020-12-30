@@ -54,6 +54,7 @@ class Repository {
   Future<TaskListResponseModel> getTaskByKeywords(String keyword, String userId) => taskApiProvider.getTaskListByKeywords(keyword, userId);
   Future<TaskDetailResponseModel> getTaskDetail(int taskId, String userId) => taskApiProvider.getTaskDetail(taskId, userId);
   Future<TaskDetailResponseModel> updateTaskDetail(int taskId, String userId, String progress, String notes) => taskApiProvider.updateTaskDetail(taskId, userId, progress, notes);
+  Future<TaskDetailResponseModel> deleteTaskDetail(int taskId, String userId, String progress) => taskApiProvider.deleteTaskDetail(taskId, userId, progress);
 
 
   dispose() {

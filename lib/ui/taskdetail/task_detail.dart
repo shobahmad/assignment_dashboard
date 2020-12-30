@@ -281,7 +281,17 @@ class TaskListWidgetState extends State<TaskDetail> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => UpdateProgress(snapshot.data.taskDetail.progress[index], snapshot.data.taskDetail.taskName, snapshot.data.taskDetail.taskDescription)));
+                                              builder: (context) =>
+                                              UpdateProgress(progressModel: snapshot.data.taskDetail
+                                                  .progress[index],
+                                              taskTitle: snapshot.data.taskDetail
+                                                  .taskName,
+                                              taskDescription: snapshot.data.taskDetail
+                                                  .taskDescription,
+                                              allowDelete: index == 0 ,
+                                              onDone: (x) {
+                                                _getData();
+                                              })));
                                     });
                                   },
                                 )

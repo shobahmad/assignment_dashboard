@@ -12,6 +12,7 @@ class TaskProgressStream {
 }
 
 enum TaskProgressState {
+    empty,
     loading,
     success,
     error
